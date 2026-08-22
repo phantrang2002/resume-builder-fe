@@ -33,6 +33,18 @@ const onSubmit = async (validated) => { await login(validated); };
 // Form: controlled inputs, validateSync, field errors
 ```
 
+### Shared form / feedback components
+
+Prefer existing common components for auth and similar forms:
+
+| Component | Role |
+|-----------|------|
+| `InputField` | Labeled text/password input with field error |
+| `CheckboxField` | Checkbox + label |
+| `ActionButton` | Primary submit / CTA button with loading |
+| `FormAlert` | Inline error/alert block (used on login failures) |
+| `AppToast` / `ToastIcons` | Custom toast content (used via `toast` helper, not directly in pages) |
+
 ### Form validation
 
 - Schemas in `shared/validations/` using Yup.
@@ -50,24 +62,25 @@ Default export for page, layout, and hook modules. Named exports for selectors, 
 |---------|----------|
 | Auth session | Redux `auth` slice |
 | API data | RTK Query (`appApi` + injected endpoints) |
-| Global loading | Redux `ui` slice (non-GET requests only) |
 | Access token | Module-level memory (`accessTokenMemory.ts`), not Redux |
 
-Do not store the access token in Redux or localStorage.
+Do not store the access token in Redux or localStorage. There is no global loading Redux slice; use local `loading` from feature hooks / mutations.
 
 ## API & error handling
 
 - Define endpoints in `shared/constants/api.ts` as `API_ENDPOINT.*`.
 - Use RTK Query mutations/queries from `authApi` hooks in feature hooks.
-- Let `apiErrorListenerMiddleware` show toast for RTK errors; pages catch and suppress duplicate toasts where needed.
+- Let `apiErrorListenerMiddleware` show `toast.error` for RTK errors; pages/forms that render errors inline should catch and avoid duplicate toasts.
+- Use `toast` from `@/shared/helpers/toast` for success/info/manual errors (`string` or `{ title, description }`).
 - Use `showRequestErrorToast()` for non-RTK errors (e.g. bootstrap failures).
 
 ## Styling
 
-- **Ant Design 6** for UI components (Button, Input, Spin, ConfigProvider theme).
-- **Tailwind CSS** for layout and spacing utility classes.
-- Theme token `colorPrimary: #3478F5` set in `App.tsx`; Tailwind `primary` color matches.
-- Custom Tailwind colors: `pageTitle`, `lightBg`.
+- **Ant Design 6** for selected primitives (e.g. `Spin`, icons) and `ConfigProvider` theme.
+- **Tailwind CSS** for layout, auth UI, and spacing.
+- Ant Design `colorPrimary` in `App.tsx` is `#3478F5`; Tailwind `primary` is `#2E4C74` (auth/brand palette). Prefer Tailwind tokens for new auth UI.
+- Auth-related Tailwind tokens include `authNavy`, `authTeal`, `error*`, `inputFocus`, `link`, plus `font-sans` (Inter) and `font-serif` (Source Serif 4).
+- Toast host styles live in `src/styles/toast.css`.
 
 ## Types
 

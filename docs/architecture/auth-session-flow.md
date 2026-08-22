@@ -1,6 +1,6 @@
 # Auth & Session Flow
 
-React frontend scaffold based on **comedi-company** architecture. Authentication uses **access token in memory + refresh token HttpOnly cookie**.
+Rezum authentication uses **access token in memory + refresh token HttpOnly cookie**.
 
 ## Token storage
 

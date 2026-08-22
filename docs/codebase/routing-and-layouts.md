@@ -20,7 +20,10 @@ Route constants live in `src/shared/constants/routes.ts` as `ROUTER_PATH`.
 
 ### AuthLayout
 
-Centered card layout for unauthenticated flows (login, signup, password reset).
+Two-column auth shell for login, signup, and password flows:
+
+- Left (desktop only): `AuthPromoPanel` — Rezum branding, resume preview image, feature bullets.
+- Right: centered form column (`max-w-[420px]`) on white background.
 
 ### MainLayout
 

@@ -22,7 +22,7 @@ Copy `.env.example` to `.env`:
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `VITE_APP_NAME` | No | Browser tab title |
+| `VITE_APP_NAME` | No | Browser tab title (default / example: `Rezum`) |
 | `VITE_API_URL` | Build only | Full API base URL for production (e.g. `https://api.example.com`) |
 | `VITE_DEV_API_TARGET` | Dev | Backend origin for Vite proxy (e.g. `http://localhost:8888`) |
 

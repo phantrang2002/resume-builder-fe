@@ -24,7 +24,8 @@ export default {
         inputMuted: "#A8A49B",
       },
       fontFamily: {
-        serif: ['"Libre Baskerville"', "Georgia", "serif"],
+        sans: ['"Inter"', "sans-serif"],
+        serif: ['"Source Serif 4"', "Georgia", "serif"],
       },
     },
   },

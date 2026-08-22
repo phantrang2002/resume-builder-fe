@@ -1,6 +1,6 @@
-# Codebase FE React
+# Rezum
 
-React frontend scaffold using **Access token in memory + Refresh token HttpOnly cookie**.
+Resume-builder frontend using **Access token in memory + Refresh token HttpOnly cookie** (auth foundation first; resume editor TBD).
 
 📖 **Documentation:** [docs/SUMMARY.md](docs/SUMMARY.md)
 
@@ -10,7 +10,7 @@ React frontend scaffold using **Access token in memory + Refresh token HttpOnly 
 - Redux Toolkit + RTK Query
 - React Router v6
 - Ant Design 6 + Tailwind CSS
-- Yup validation + react-toastify
+- Yup validation + react-toastify (custom `AppToast`)
 
 ## Authentication
 

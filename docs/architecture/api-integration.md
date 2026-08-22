@@ -45,10 +45,12 @@ The HTTP client treats `status !== "success"` on 2xx as an error and throws `Htt
 
 Profile query provides tag `["Profile"]` and syncs Redux session in `onQueryStarted`.
 
-## Global loading & errors
+## Errors & toasts
 
-- **Loading**: `baseQuery` dispatches `startLoading`/`stopLoading` for non-GET requests. `GlobalLoadingOverlay` reads `selectIsGlobalLoading`.
-- **Errors**: `apiErrorListenerMiddleware` in the store shows `react-toastify` errors for rejected RTK Query actions, except 401 (handled by auth flow).
+- **RTK Query errors**: `apiErrorListenerMiddleware` in the store shows `toast.error(...)` for rejected RTK Query actions, except 401 (handled by auth flow).
+- **Toast API**: use `toast` from `@/shared/helpers/toast` (`success` | `error` | `info`). Renders custom `AppToast` via `react-toastify` (`ToastContainer` in `main.tsx`, styles in `styles/toast.css`).
+- **Non-RTK errors**: call `showRequestErrorToast()` (e.g. session bootstrap failures).
+- **Login form**: auth failures are shown inline via `FormAlert` in the form; they are not only toast-driven.
 
 ## Dev proxy (Vite)
 
@@ -63,6 +65,6 @@ Production builds **require** `VITE_API_URL` — the build fails if unset becaus
 
 | Variable | Purpose |
 |----------|---------|
-| `VITE_APP_NAME` | Document title (default: "Codebase FE React") |
+| `VITE_APP_NAME` | Document title (default: "Rezum") |
 | `VITE_API_URL` | API base URL for production / direct requests |
 | `VITE_DEV_API_TARGET` | Backend origin for dev proxy only |
