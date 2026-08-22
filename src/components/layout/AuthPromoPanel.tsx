@@ -16,7 +16,7 @@ export default function AuthPromoPanel() {
       </div>
 
       <div className="mt-14 w-full shrink-0">
-        <h1 className="font-serif text-[36px] font-normal leading-[1.2] text-white">
+        <h1 className="font-serif text-[50px] font-semibold leading-[1.1] text-white">
           A resume you can actually keep up to date.
         </h1>
         <p className="mt-4 text-base leading-[1.6] text-white/70">
