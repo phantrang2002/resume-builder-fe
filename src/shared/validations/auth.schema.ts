@@ -6,10 +6,18 @@ export const loginSchema = yup.object({
 });
 
 export const signupSchema = yup.object({
+  firstName: yup.string().trim().max(100).required("First name is required"),
+  lastName: yup.string().trim().max(100).required("Last name is required"),
   email: yup.string().email("Invalid email").max(255).required("Email is required"),
-  password: yup.string().min(8, "Password must be at least 8 characters").max(255).required("Password is required"),
-  firstName: yup.string().max(100).required("First name is required"),
-  lastName: yup.string().max(100).required("Last name is required"),
+  password: yup
+    .string()
+    .min(10, "Password must be at least 10 characters")
+    .max(255)
+    .required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords don't match yet.")
+    .required("Confirm password is required"),
 });
 
 export const forgotPasswordSchema = yup.object({

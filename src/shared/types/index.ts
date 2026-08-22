@@ -25,6 +25,14 @@ export type SignupParams = {
   lastName: string;
 };
 
+export type SignupFormValues = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
 export type SignupResponseData = {
   accountCreated: {
     id: number;
@@ -39,7 +47,7 @@ export type SignupResponseData = {
   };
 };
 
-export type SignupFieldErrors = Partial<Record<keyof SignupParams, string>>;
+export type SignupFieldErrors = Partial<Record<keyof SignupFormValues, string>>;
 
 export type LoginResponseData = {
   account: { id: number };
