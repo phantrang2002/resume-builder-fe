@@ -4,12 +4,11 @@ import { Provider } from "react-redux";
 import { ConfigProvider } from "antd";
 import { store } from "@/app/store";
 import AppRouter from "@/app/router";
-import GlobalLoadingOverlay from "@/components/common/GlobalLoadingOverlay";
 import SessionBootstrapGate from "@/components/common/SessionBootstrapGate";
 
 export default function App() {
   useEffect(() => {
-    document.title = import.meta.env.VITE_APP_NAME ?? "Codebase FE React";
+    document.title = import.meta.env.VITE_APP_NAME ?? "Rezum";
   }, []);
 
   return (
@@ -27,7 +26,6 @@ export default function App() {
           <SessionBootstrapGate>
             <AppRouter />
           </SessionBootstrapGate>
-          <GlobalLoadingOverlay />
         </BrowserRouter>
       </ConfigProvider>
     </Provider>

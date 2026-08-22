@@ -1,0 +1,48 @@
+import { LoadingOutlined } from "@ant-design/icons";
+import { ButtonHTMLAttributes, ReactNode } from "react";
+
+type ActionButtonProps = {
+  children: ReactNode;
+  loading?: boolean;
+  loadingLabel?: string;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+export default function ActionButton({
+  children,
+  loading = false,
+  loadingLabel = "Signing you in...",
+  disabled,
+  className,
+  type = "button",
+  ...buttonProps
+}: ActionButtonProps) {
+  const isDisabled = disabled || loading;
+
+  return (
+    <button
+      type={type}
+      disabled={isDisabled}
+      aria-busy={loading}
+      className={[
+        "flex h-12 w-full items-center justify-center gap-2 rounded-lg text-sm font-semibold text-white transition-colors",
+        loading
+          ? "bg-primary/75"
+          : "bg-primary hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+        "disabled:cursor-not-allowed disabled:opacity-100",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      {...buttonProps}
+    >
+      {loading ? (
+        <>
+          <LoadingOutlined spin className="text-base" />
+          <span>{loadingLabel}</span>
+        </>
+      ) : (
+        children
+      )}
+    </button>
+  );
+}

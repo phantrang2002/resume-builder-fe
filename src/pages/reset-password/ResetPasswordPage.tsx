@@ -6,7 +6,7 @@ import { useResetPasswordMutation } from "@/services/api";
 import { ROUTER_PATH } from "@/shared/constants";
 import { yupErrorsToRecord } from "@/shared/helpers";
 import { resetPasswordSchema } from "@/shared/validations/auth.schema";
-import { toast } from "react-toastify";
+import { toast } from "@/shared/helpers/toast";
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate();

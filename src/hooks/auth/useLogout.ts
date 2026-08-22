@@ -6,7 +6,7 @@ import { appApi, useLogoutMutation } from "@/services/api";
 import { ROUTER_PATH } from "@/shared/constants";
 import { clearAccessToken } from "@/shared/helpers";
 import { broadcastLogout } from "@/hooks/auth/useCrossTabLogout";
-import { toast } from "react-toastify";
+import { toast } from "@/shared/helpers/toast";
 
 export default function useLogout() {
   const dispatch = useAppDispatch();

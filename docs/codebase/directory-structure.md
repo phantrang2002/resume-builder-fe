@@ -5,7 +5,7 @@
 | File | Role |
 |------|------|
 | `index.html` | Vite HTML shell |
-| `src/main.tsx` | React root, ToastContainer, global CSS |
+| `src/main.tsx` | React root, `ToastContainer`, global + toast CSS |
 | `src/app/App.tsx` | Redux Provider, Ant Design theme, router shell |
 
 ## `src/` layout
@@ -15,12 +15,13 @@ src/
 ├── app/                    # Application shell
 │   ├── App.tsx
 │   ├── router/             # Route definitions & guards
-│   ├── store/              # Redux store, hooks, root reducer
-│   ├── features/           # Redux slices (auth, ui)
+│   ├── store/              # Redux store, hooks, root reducer, API error middleware
+│   ├── features/           # Redux slices (auth)
 │   └── middleware/         # Pure redirect helpers (authNavigation)
+├── assets/images/          # Static images (e.g. auth resume preview)
 ├── components/
-│   ├── common/             # SessionBootstrapGate, GlobalLoadingOverlay
-│   ├── layout/             # Header, Sidebar
+│   ├── common/             # Form controls, toasts, SessionBootstrapGate
+│   ├── layout/             # Header, Sidebar, AuthPromoPanel
 │   └── page/               # Page-specific forms (login, signup)
 ├── hooks/auth/             # useLogin, useLogout, useSignup, session bootstrap
 ├── layouts/                # AuthLayout, MainLayout
@@ -30,10 +31,10 @@ src/
 │   └── http/               # fetch client, executeClientRequest
 ├── shared/
 │   ├── constants/          # API endpoints, routes, storage keys
-│   ├── helpers/            # API path builder, envelope parsers, token memory
+│   ├── helpers/            # API helpers, token memory, toast wrapper
 │   ├── types/              # Shared TypeScript types
 │   └── validations/        # Yup schemas
-└── styles/                 # Tailwind entry CSS
+└── styles/                 # Tailwind entry (`index.css`) + toast styles
 ```
 
 ## Key modules
@@ -41,13 +42,14 @@ src/
 | Module | Responsibility |
 |--------|----------------|
 | `app/features/auth/` | Session state, selectors, `profileToSession` mapper |
-| `app/features/ui/` | Global loading counter for non-GET requests |
 | `services/api/baseQuery.ts` | RTK Query base query with 401 refresh retry |
 | `services/api/refreshSession.ts` | Mutex-protected refresh, session expiry cleanup |
 | `services/http/client.ts` | Fetch wrapper, auth headers, envelope validation |
 | `shared/helpers/accessTokenMemory.ts` | In-memory access token get/set/clear |
+| `shared/helpers/toast.tsx` | App toast API wrapping `react-toastify` + `AppToast` |
 | `shared/constants/api.ts` | Endpoint paths, public path list, HTTP constants |
 | `shared/constants/routes.ts` | Route paths, role constants, user-facing messages |
+| `shared/constants/storage.ts` | Storage / BroadcastChannel key prefix (`rezum`) |
 
 ## Path alias
 
@@ -59,6 +61,6 @@ src/
 |------|---------|
 | `vite.config.ts` | Dev server, proxy, `@` alias, build env validation |
 | `tsconfig.json` | Strict TypeScript, path aliases |
-| `tailwind.config.ts` | Custom colors: `primary`, `pageTitle`, `lightBg` |
+| `tailwind.config.ts` | Brand/auth palette (`primary`, `authNavy`, form/error tokens) + `fontFamily.serif` |
 | `eslint.config.js` | TypeScript ESLint + React hooks rules |
 | `.env.example` | Environment variable template |

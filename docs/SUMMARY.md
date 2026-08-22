@@ -1,6 +1,6 @@
 # Documentation Summary
 
-Codebase FE React — React frontend scaffold dùng **access token in memory + refresh token HttpOnly cookie**, kết nối Express backend. Stack: React 19, Vite 6, TypeScript, Redux Toolkit, RTK Query, React Router v6, Ant Design 6, Tailwind CSS.
+Rezum — resume-builder React frontend with **access token in memory + refresh token HttpOnly cookie**, connected to an Express backend. Stack: React 19, Vite 6, TypeScript, Redux Toolkit, RTK Query, React Router v6, Ant Design 6, Tailwind CSS.
 
 ## Agent Context Guide
 
@@ -13,7 +13,7 @@ System design, auth flows, API integration, and data transport.
 | File | Description |
 | ---- | ----------- |
 | [auth-session-flow.md](architecture/auth-session-flow.md) | Token storage, bootstrap, login/logout, 401 refresh, route guards |
-| [api-integration.md](architecture/api-integration.md) | HTTP client, RTK Query, API envelope, dev proxy, env vars |
+| [api-integration.md](architecture/api-integration.md) | HTTP client, RTK Query, API envelope, toasts, dev proxy, env vars |
 
 ## Codebase
 
@@ -22,7 +22,8 @@ Directory structure, entry points, routing, and key modules.
 | File | Description |
 | ---- | ----------- |
 | [directory-structure.md](codebase/directory-structure.md) | `src/` layout, entry points, module responsibilities |
-| [routing-and-layouts.md](codebase/routing-and-layouts.md) | Route table, layouts, guard pattern, adding routes |
+| [routing-and-layouts.md](codebase/routing-and-layouts.md) | Route table, AuthLayout / MainLayout, guards, adding routes |
+| [shared-ui-components.md](codebase/shared-ui-components.md) | Common form controls, toasts, auth promo, layout pieces |
 
 ## Code Standard
 
@@ -30,7 +31,7 @@ Conventions, naming rules, and development workflows.
 
 | File | Description |
 | ---- | ----------- |
-| [conventions.md](code-standard/conventions.md) | Naming, component patterns, state management, styling |
+| [conventions.md](code-standard/conventions.md) | Naming, components, state, toasts, styling tokens |
 | [environment-setup.md](code-standard/environment-setup.md) | Prerequisites, env vars, scripts, backend requirements |
 
 ## Project PDR

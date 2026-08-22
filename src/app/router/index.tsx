@@ -17,7 +17,7 @@ import ResetPasswordPage from "@/pages/reset-password/ResetPasswordPage";
 import { NO_ACCESS_PERMISSION_MESSAGE, ROUTER_PATH } from "@/shared/constants";
 import { useEffect } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "@/shared/helpers/toast";
 
 function HomeRedirect() {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
@@ -57,7 +57,10 @@ function AdminProtectedRoute() {
 
   useEffect(() => {
     if (target && isAuthenticated) {
-      toast.error(NO_ACCESS_PERMISSION_MESSAGE);
+      toast.error({
+        title: "Access denied",
+        description: NO_ACCESS_PERMISSION_MESSAGE,
+      });
     }
   }, [target, isAuthenticated]);
 
