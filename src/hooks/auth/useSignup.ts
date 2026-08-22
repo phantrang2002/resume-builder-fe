@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useLazyGetProfileQuery, useLoginMutation, useSignupMutation } from "@/services/api";
 import { PRIVATE_DEFAULT_ROUTE } from "@/shared/constants";
 import type { SignupParams } from "@/shared/types";
-import { toast } from "react-toastify";
+import { toast } from "@/shared/helpers/toast";
 
 export default function useSignup() {
   const navigate = useNavigate();

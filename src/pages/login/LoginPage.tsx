@@ -2,14 +2,20 @@ import LoginForm from "@/components/page/login/LoginForm";
 import useLogin from "@/hooks/auth/useLogin";
 import { TOKEN_EXPIRED_MESSAGE } from "@/shared/constants";
 import { useEffect } from "react";
-import { toast } from "react-toastify";
+import { toast } from "@/shared/helpers/toast";
 
 export default function LoginPage() {
   const { login, loading } = useLogin();
 
   useEffect(() => {
     if (sessionStorage.getItem("token_expired") === "true") {
-      toast.error(TOKEN_EXPIRED_MESSAGE, { toastId: "token-expired" });
+      toast.error(
+        {
+          title: "Session expired",
+          description: TOKEN_EXPIRED_MESSAGE,
+        },
+        { toastId: "token-expired" },
+      );
       sessionStorage.removeItem("token_expired");
     }
   }, []);

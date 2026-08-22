@@ -1,5 +1,5 @@
 import { configureStore, isRejectedWithValue, type Middleware } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import { toast } from "@/shared/helpers/toast";
 import rootReducer from "@/app/store/rootReducer";
 import { appApi } from "@/services/api/appApi";
 import { HTTP_STATUS } from "@/shared/constants";

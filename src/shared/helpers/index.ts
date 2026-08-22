@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from "@/shared/helpers/toast";
 
 export function yupErrorsToRecord(error: import("yup").ValidationError): Record<string, string> {
   const record: Record<string, string> = {};

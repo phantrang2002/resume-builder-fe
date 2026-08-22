@@ -6,7 +6,7 @@ import { useForgotPasswordMutation } from "@/services/api";
 import { ROUTER_PATH } from "@/shared/constants";
 import { yupErrorsToRecord } from "@/shared/helpers";
 import { forgotPasswordSchema } from "@/shared/validations/auth.schema";
-import { toast } from "react-toastify";
+import { toast } from "@/shared/helpers/toast";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
