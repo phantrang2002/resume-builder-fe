@@ -8,7 +8,11 @@ import { getApiErrorMessage } from "@/shared/helpers";
 const apiErrorListenerMiddleware: Middleware = () => (next) => (action) => {
   if (isRejectedWithValue(action)) {
     const status = (action.payload as { status?: number } | undefined)?.status;
-    if (status !== HTTP_STATUS.UNAUTHORIZED) {
+    const endpointName = (
+      action.meta as { arg?: { endpointName?: string } } | undefined
+    )?.arg?.endpointName;
+    // Login failures are shown inline via FormAlert — skip duplicate toast.
+    if (status !== HTTP_STATUS.UNAUTHORIZED && endpointName !== "login") {
       toast.error(getApiErrorMessage(action.payload));
     }
   }

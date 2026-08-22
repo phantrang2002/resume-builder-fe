@@ -16,7 +16,7 @@ Business rules inferred from current implementation. Confirm with product/backen
 
 **Rules:**
 
-- Invalid credentials show an inline `FormAlert` on the login form (and password field error); global API error toast middleware still applies to other RTK failures.
+- Invalid credentials show an inline `FormAlert` on the login form (and password field error); the global API error toast is skipped for `login` so it does not duplicate. Other RTK failures still toast.
 - "Keep me signed in" is present in the UI but is not sent to the API yet.
 - Authenticated users visiting `/login` are redirected to `/dashboard`.
 

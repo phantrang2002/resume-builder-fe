@@ -18,11 +18,11 @@ type AppToastProps = {
 const variantIcons: Record<AppToastVariant, { icon: ReactNode; iconColor: string }> = {
   success: {
     icon: <ToastSuccessIcon />,
-    iconColor: "text-[#2F5F48]",
+    iconColor: "text-[#2F6E4E]",
   },
   error: {
     icon: <ToastErrorIcon />,
-    iconColor: "text-[#9E4437]",
+    iconColor: "text-[#A13D2E]",
   },
   info: {
     icon: <ToastInfoIcon />,

@@ -70,7 +70,7 @@ Do not store the access token in Redux or localStorage. There is no global loadi
 
 - Define endpoints in `shared/constants/api.ts` as `API_ENDPOINT.*`.
 - Use RTK Query mutations/queries from `authApi` hooks in feature hooks.
-- Let `apiErrorListenerMiddleware` show `toast.error` for RTK errors; pages/forms that render errors inline should catch and avoid duplicate toasts.
+- Let `apiErrorListenerMiddleware` show `toast.error` for RTK errors (skips 401 and `login`); pages/forms that render errors inline should catch and avoid duplicate toasts.
 - Use `toast` from `@/shared/helpers/toast` for success/info/manual errors (`string` or `{ title, description }`).
 - Use `showRequestErrorToast()` for non-RTK errors (e.g. bootstrap failures).
 
