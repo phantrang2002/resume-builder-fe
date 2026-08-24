@@ -40,7 +40,7 @@ function CreateResumeWizard() {
   return (
     <div className="relative flex h-full min-h-0 flex-col">
       <CreateResumeHeader cancelDisabled={isCreating} />
-      {draft.view === "wizard" ? <CreateResumeStepper /> : null}
+      <CreateResumeStepper />
 
       {draft.view === "preview" ? (
         <TemplatePreviewView onCreateResume={handleCreateResume} />

@@ -167,7 +167,7 @@ export default function MethodStep() {
                   <div key={template.id} className="flex items-start gap-3">
                     <TemplateThumb
                       template={template}
-                      className="w-[52px] shrink-0 rounded-[4px] shadow-sm"
+                      className="!h-[70px] !w-[52px] shrink-0 rounded-[4px] shadow-sm"
                     />
                     <div className="min-w-0 pt-0.5">
                       <p className="text-sm font-semibold text-pageTitle">{template.name}</p>
