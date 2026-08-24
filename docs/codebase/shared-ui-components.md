@@ -8,6 +8,7 @@ Reusable pieces under `src/components/` used by auth and layout shells.
 |-----------|----------|
 | `SessionBootstrapGate` | Blocks router until session probe finishes (`Spin` full-screen) |
 | `InputField` | Auth form text/password fields with label + error text |
+| `SelectField` | Labeled select dropdown with placeholder, hint, error, and chevron |
 | `CheckboxField` | Auth form checkboxes (e.g. keep signed in on login UI) |
 | `ActionButton` | Primary CTA / submit with loading state |
 | `FormAlert` | Inline form-level error banner |

@@ -1,5 +1,5 @@
 export type CreateMethod = "scratch" | "template" | "import";
-export type ExperienceLevel = "student" | "junior" | "mid" | "senior";
+export type ExperienceLevel = "intern" | "junior" | "mid" | "senior";
 export type WizardStep = 1 | 2 | 3;
 export type WizardView = "wizard" | "preview";
 

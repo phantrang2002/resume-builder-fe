@@ -1,5 +1,5 @@
 export const EXPERIENCE_LEVEL_OPTIONS = [
-  { value: "student", label: "Student / Intern" },
+  { value: "intern", label: "Intern" },
   { value: "junior", label: "Junior" },
   { value: "mid", label: "Mid-level" },
   { value: "senior", label: "Senior" },

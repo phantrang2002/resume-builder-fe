@@ -66,7 +66,7 @@ export default function MethodStep() {
             <h1 className="font-serif text-4xl font-semibold tracking-tight text-pageTitle">
               How do you want to start?
             </h1>
-            <p className="mt-2 text-base text-subtle">
+            <p className="mt-2 text-base text-secondary">
               Whichever you pick, you can change the template later without losing a word of what
               you wrote.
             </p>
@@ -124,7 +124,7 @@ export default function MethodStep() {
                   </div>
 
                   <span className="mt-4 text-base font-semibold text-pageTitle">{method.title}</span>
-                  <span className="mt-2 flex-1 text-sm leading-relaxed text-subtle">
+                  <span className="mt-2 flex-1 text-sm leading-relaxed text-secondary  ">
                     {method.description}
                   </span>
 

@@ -13,7 +13,7 @@ export const createResumeDetailsSchema = yup.object({
     .max(120, "Job title is too long — please shorten it."),
   experienceLevel: yup
     .string()
-    .oneOf(["student", "junior", "mid", "senior"])
+    .oneOf(["intern", "junior", "mid", "senior"])
     .nullable()
     .optional(),
   industry: yup.string().trim().max(80, "Industry is too long — please shorten it.").nullable().optional(),
