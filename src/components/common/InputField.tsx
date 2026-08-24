@@ -51,7 +51,7 @@ export default function InputField({
           onChange={(event) => onChange(event.target.value)}
           aria-invalid={Boolean(error)}
           className={[
-            "w-full rounded-lg border px-4 py-3 text-sm text-[gray-900] outline-none transition-[color,box-shadow]",
+            "h-10 w-full rounded-lg border px-4 text-sm text-[gray-900] outline-none transition-[color,box-shadow]",
             "placeholder:text-inputMuted",
             disabled ? "cursor-not-allowed bg-[#EFEEEB] text-gray-500" : "bg-white",
             error

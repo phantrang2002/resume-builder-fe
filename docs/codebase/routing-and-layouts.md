@@ -29,9 +29,8 @@ Two-column auth shell for login, signup, and password flows:
 
 Authenticated shell with:
 
-- `Sidebar` — navigation
-- `Header` — user info, logout
-- `<Outlet />` — nested route content on `lightBg` background
+- `Sidebar` — brand, navigation, tip callout, settings, user profile + logout menu
+- `<Outlet />` — nested route content on `lightBg` background (no top header bar)
 - `useCrossTabLogout()` — sync logout across browser tabs
 
 ## Route guard pattern

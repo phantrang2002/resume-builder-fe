@@ -21,7 +21,7 @@ src/
 ├── assets/images/          # Static images (e.g. auth resume preview)
 ├── components/
 │   ├── common/             # Form controls, toasts, SessionBootstrapGate
-│   ├── layout/             # Header, Sidebar, AuthPromoPanel
+│   ├── layout/             # Sidebar, AuthPromoPanel
 │   └── page/               # Page-specific forms (login, signup)
 ├── hooks/auth/             # useLogin, useLogout, useSignup, session bootstrap
 ├── layouts/                # AuthLayout, MainLayout
