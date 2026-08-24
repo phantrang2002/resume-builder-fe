@@ -23,7 +23,7 @@ export default function TemplatePreviewView({ onCreateResume }: TemplatePreviewV
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="min-h-0 flex-1 overflow-auto px-4 py-8 sm:px-6">
+      <div className="min-h-0 flex-1 overflow-auto px-4 py-11 sm:px-6">
         <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
           <section className="flex flex-col items-center">
             <div className="w-full max-w-md">

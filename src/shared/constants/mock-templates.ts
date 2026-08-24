@@ -1,3 +1,7 @@
+import miniClassic from "@/assets/images/mini-classic.png";
+import miniCompact from "@/assets/images/mini-compact.png";
+import miniModern from "@/assets/images/mini-modern.png";
+
 export type TemplateCategory = "Modern" | "Minimal" | "Classic" | "ATS";
 
 export type MockTemplate = {
@@ -9,7 +13,48 @@ export type MockTemplate = {
   atAGlance: string[];
   sections: string[];
   accent: string;
+  thumbnail: string;
+  teaserSubtitle?: string;
 };
+
+export const METHOD_TEASER_TEMPLATES: MockTemplate[] = [
+  {
+    id: "classic",
+    name: "Classic",
+    description: "Traditional serif layout with a single column.",
+    tags: ["Classic", "ATS"],
+    recommendedFor: "General professional roles",
+    atAGlance: ["Serif", "One column"],
+    sections: ["Summary", "Experience", "Projects", "Education", "Skills"],
+    accent: "#1F2937",
+    thumbnail: miniClassic,
+    teaserSubtitle: "Serif · one column",
+  },
+  {
+    id: "modern",
+    name: "Modern",
+    description: "Header band with a sidebar for skills and extras.",
+    tags: ["Modern", "ATS"],
+    recommendedFor: "Tech and product roles",
+    atAGlance: ["Header band", "Sidebar"],
+    sections: ["Summary", "Experience", "Skills", "Education", "Projects"],
+    accent: "#2E4C74",
+    thumbnail: miniModern,
+    teaserSubtitle: "Header band · sidebar",
+  },
+  {
+    id: "compact",
+    name: "Compact",
+    description: "Dense single-column layout for longer careers.",
+    tags: ["Minimal", "ATS"],
+    recommendedFor: "Senior professionals with long histories",
+    atAGlance: ["Dense", "Longer careers"],
+    sections: ["Summary", "Experience", "Education", "Skills", "Others"],
+    accent: "#4B5563",
+    thumbnail: miniCompact,
+    teaserSubtitle: "Dense · longer careers",
+  },
+];
 
 export const MOCK_TEMPLATES: MockTemplate[] = [
   {
@@ -21,6 +66,7 @@ export const MOCK_TEMPLATES: MockTemplate[] = [
     atAGlance: ["One-column", "Accent header", "ATS-friendly spacing"],
     sections: ["Summary", "Experience", "Skills", "Education", "Projects"],
     accent: "#2E4C74",
+    thumbnail: miniModern,
   },
   {
     id: "slate",
@@ -31,6 +77,7 @@ export const MOCK_TEMPLATES: MockTemplate[] = [
     atAGlance: ["Two-tone sidebar", "Dense skills", "Print-ready"],
     sections: ["Summary", "Experience", "Skills", "Education", "Certifications"],
     accent: "#4B5563",
+    thumbnail: miniCompact,
   },
   {
     id: "heritage",
@@ -41,6 +88,7 @@ export const MOCK_TEMPLATES: MockTemplate[] = [
     atAGlance: ["Serif titles", "Traditional rules", "Formal tone"],
     sections: ["Summary", "Experience", "Education", "Publications", "Skills"],
     accent: "#1F2937",
+    thumbnail: miniClassic,
   },
   {
     id: "pulse",
@@ -51,6 +99,7 @@ export const MOCK_TEMPLATES: MockTemplate[] = [
     atAGlance: ["Bold typography", "Skill chips", "Project-forward"],
     sections: ["Summary", "Projects", "Experience", "Skills", "Education"],
     accent: "#0F766E",
+    thumbnail: miniModern,
   },
   {
     id: "linen",
@@ -61,6 +110,7 @@ export const MOCK_TEMPLATES: MockTemplate[] = [
     atAGlance: ["Airy spacing", "Quiet labels", "Easy scan"],
     sections: ["Summary", "Experience", "Education", "Skills", "Interests"],
     accent: "#857F74",
+    thumbnail: miniClassic,
   },
   {
     id: "ledger",
@@ -71,6 +121,7 @@ export const MOCK_TEMPLATES: MockTemplate[] = [
     atAGlance: ["Timeline-friendly", "Dense content", "ATS parsers"],
     sections: ["Summary", "Experience", "Leadership", "Skills", "Education"],
     accent: "#253D5D",
+    thumbnail: miniCompact,
   },
   {
     id: "signal",
@@ -81,6 +132,7 @@ export const MOCK_TEMPLATES: MockTemplate[] = [
     atAGlance: ["Single column", "Standard headings", "Parser-safe"],
     sections: ["Summary", "Skills", "Experience", "Education", "Extras"],
     accent: "#3478F5",
+    thumbnail: miniClassic,
   },
   {
     id: "nova",
@@ -91,6 +143,7 @@ export const MOCK_TEMPLATES: MockTemplate[] = [
     atAGlance: ["Header band", "Balanced sections", "Versatile"],
     sections: ["Summary", "Experience", "Skills", "Education", "Volunteer"],
     accent: "#456590",
+    thumbnail: miniModern,
   },
 ];
 
@@ -129,5 +182,8 @@ export function getMockTemplateById(id: string | null): MockTemplate | undefined
   if (!id) {
     return undefined;
   }
-  return MOCK_TEMPLATES.find((template) => template.id === id);
+  return (
+    MOCK_TEMPLATES.find((template) => template.id === id) ??
+    METHOD_TEASER_TEMPLATES.find((template) => template.id === id)
+  );
 }

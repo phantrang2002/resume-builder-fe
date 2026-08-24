@@ -28,7 +28,7 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="min-h-0 flex-1 overflow-auto px-4 py-8 sm:px-6">
+      <div className="min-h-0 flex-1 overflow-auto px-4 py-11 sm:px-6">
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
             <h1 className="font-serif text-3xl font-semibold tracking-tight text-pageTitle">

@@ -44,7 +44,7 @@ export default function DetailsStep() {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="min-h-0 flex-1 overflow-auto px-4 py-8 sm:px-6">
+      <div className="min-h-0 flex-1 overflow-auto px-4 py-11 sm:px-6">
         <div className="mx-auto max-w-xl">
           <div className="text-center">
             <h1 className="font-serif text-3xl font-semibold tracking-tight text-pageTitle">
@@ -139,7 +139,7 @@ export default function DetailsStep() {
             </div>
           </form>
 
-          <div className="mt-6 flex items-start gap-2 rounded-xl border border-[#DCE7F5] bg-[#F3F7FC] px-4 py-3 text-sm text-[#3A4F6A]">
+          <div className="mt-6 flex items-start gap-2 rounded-lg border border-[#DCE7F5] bg-[#F3F7FC] px-4 py-3 text-sm text-[#3A4F6A]">
             <InfoCircleOutlined className="mt-0.5 shrink-0" />
             <p>
               You can edit these details anytime. They do not appear on the exported PDF unless you

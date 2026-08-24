@@ -1,4 +1,5 @@
 import { ROUTER_PATH } from "@/shared/constants";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useCreateResumeDraft } from "./useCreateResumeDraft";
 
@@ -11,20 +12,35 @@ export default function CreateResumeHeader({ cancelDisabled = false }: CreateRes
   const { draft } = useCreateResumeDraft();
   const title = draft.step > 1 && draft.name.trim() ? draft.name.trim() : "New resume";
 
+  const goToDashboard = () => navigate(ROUTER_PATH.DASHBOARD);
+
   return (
-    <header className="flex shrink-0 items-center justify-between border-b border-[#E5E3DE] bg-white px-4 py-4 sm:px-6">
-      <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-        <div className="inline-flex shrink-0 items-baseline gap-1.5 font-serif text-[20px] font-semibold leading-none tracking-tight text-[#333333]">
+    <header className="flex shrink-0 items-center justify-between border-b border-[#E5E3DE] bg-white px-5 py-3.5 sm:px-8">
+      <div className="flex min-w-0 items-center gap-3">
+        <button
+          type="button"
+          disabled={cancelDisabled}
+          aria-label="Back to dashboard"
+          onClick={goToDashboard}
+          className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-[#6B7280] transition-colors hover:bg-gray-50 hover:text-pageTitle focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <ArrowLeftOutlined className="text-sm text-secondary" />
+        </button>
+
+        <span className="shrink-0 font-serif text-[22px] font-semibold leading-none tracking-tight text-[#1a1a1a]">
           Rezum
-          <span className="size-[5px] shrink-0 rounded-full bg-primary" aria-hidden="true" />
-        </div>
-        <span className="truncate text-sm font-medium text-pageTitle">{title}</span>
+        </span>
+
+        <span className="hidden h-5 w-px shrink-0 bg-[#E5E3DE] sm:block" aria-hidden="true" />
+
+        <span className="truncate text-[15px] font-normal text-secondary">{title}</span>
       </div>
+
       <button
         type="button"
         disabled={cancelDisabled}
-        onClick={() => navigate(ROUTER_PATH.DASHBOARD)}
-        className="rounded-lg px-3 py-2 text-sm font-medium text-subtle transition-colors hover:bg-gray-50 hover:text-pageTitle focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
+        onClick={goToDashboard}
+        className="rounded-md px-1 py-1 text-[15px] font-normal text-secondary transition-colors hover:text-pageTitle focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
       >
         Cancel
       </button>

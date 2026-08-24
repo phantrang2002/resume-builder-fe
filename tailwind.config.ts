@@ -20,6 +20,7 @@ export default {
         featureText: "#94A3B8",
         muted: "#6B7280",
         subtle: "#857F74",
+        secondary: "#524D44",
         inputFocus: "#456590",
         inputMuted: "#A8A49B",
       },

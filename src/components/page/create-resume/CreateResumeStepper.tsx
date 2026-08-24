@@ -12,7 +12,7 @@ export default function CreateResumeStepper() {
   const { draft } = useCreateResumeDraft();
 
   return (
-    <div className="flex shrink-0 justify-center border-b border-[#E5E3DE] bg-white px-4 py-4 sm:px-6">
+    <div className="flex shrink-0 justify-center border-b border-[#E5E3DE] bg-white px-4 py-5 sm:px-6">
       <ol className="flex items-center gap-2 sm:gap-4">
         {STEPS.map(({ step, label }, index) => {
           const isComplete = draft.step > step;
@@ -20,25 +20,37 @@ export default function CreateResumeStepper() {
 
           return (
             <li key={label} className="flex items-center gap-2 sm:gap-4">
-              {index > 0 && <span className="h-px w-6 bg-[#E5E3DE] sm:w-10" aria-hidden="true" />}
-              <span
-                className={[
-                  "inline-flex items-center gap-2 text-sm",
-                  isCurrent || isComplete
-                    ? "font-semibold text-primary"
-                    : "font-medium text-subtle",
-                ].join(" ")}
-              >
+              {index > 0 && (
                 <span
                   className={[
-                    "inline-flex size-7 items-center justify-center rounded-full text-xs font-semibold",
-                    isComplete || isCurrent ? "bg-primary text-white" : "bg-[#EFEEEB] text-subtle",
+                    "h-px w-6 sm:w-10",
+                    draft.step >= step ? "bg-primary" : "bg-[#CFCCC5]",
+                  ].join(" ")}
+                  aria-hidden="true"
+                />
+              )}
+              <span className="inline-flex items-center gap-2 text-sm">
+                <span
+                  className={[
+                    "inline-flex size-7 items-center justify-center rounded-full text-xs font-normal",
+                    isComplete
+                      ? "bg-[#2F6E4E] text-white"
+                      : isCurrent
+                        ? "bg-primary text-white"
+                        : "bg-transparent border border-[#CFCCC5] text-subtle",
                   ].join(" ")}
                   aria-current={isCurrent ? "step" : undefined}
                 >
                   {isComplete ? <CheckOutlined className="text-[10px]" /> : step}
                 </span>
-                <span className="hidden sm:inline">{label}</span>
+                <span
+                  className={[
+                    "hidden font-normal sm:inline",
+                    isComplete || isCurrent ? "text-secondary" : "text-subtle",
+                  ].join(" ")}
+                >
+                  {label}
+                </span>
               </span>
             </li>
           );
