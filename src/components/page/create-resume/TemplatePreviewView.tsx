@@ -2,10 +2,10 @@ import {
   getMockTemplateById,
   MOCK_TEMPLATES,
 } from "@/shared/constants/mock-templates";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import CreateResumeFooter, { FooterButton } from "./CreateResumeFooter";
+import { CheckOutlined, LeftOutlined, RightOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
+import { FooterButton } from "./CreateResumeFooter";
+import MockResumePreview from "./MockResumePreview";
 import { useCreateResumeDraft } from "./useCreateResumeDraft";
-import TemplateThumb from "./TemplateThumb";
 
 type TemplatePreviewViewProps = {
   onCreateResume?: () => void;
@@ -15,88 +15,123 @@ export default function TemplatePreviewView({ onCreateResume }: TemplatePreviewV
   const { draft, setTemplateId, setView } = useCreateResumeDraft();
   const template = getMockTemplateById(draft.templateId) ?? MOCK_TEMPLATES[0];
   const currentIndex = MOCK_TEMPLATES.findIndex((item) => item.id === template.id);
+  const prevTemplate =
+    MOCK_TEMPLATES[(currentIndex - 1 + MOCK_TEMPLATES.length) % MOCK_TEMPLATES.length];
+  const nextTemplate = MOCK_TEMPLATES[(currentIndex + 1) % MOCK_TEMPLATES.length];
 
   const goToRelative = (delta: number) => {
     const nextIndex = (currentIndex + delta + MOCK_TEMPLATES.length) % MOCK_TEMPLATES.length;
     setTemplateId(MOCK_TEMPLATES[nextIndex].id);
   };
 
-  return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <div className="min-h-0 flex-1 overflow-auto px-4 py-11 sm:px-6">
-        <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <section className="flex flex-col items-center">
-            <div className="w-full max-w-md">
-              <TemplateThumb
-                template={template}
-                className="!h-auto !w-full aspect-[3/4] shadow-md"
-              />
-            </div>
-            <div className="mt-4 flex items-center gap-3">
-              <button
-                type="button"
-                aria-label="Previous template"
-                onClick={() => goToRelative(-1)}
-                className="inline-flex size-9 items-center justify-center rounded-lg border border-[#CFCCC5] bg-white text-pageTitle hover:bg-gray-50"
-              >
-                <LeftOutlined />
-              </button>
-              <span className="text-sm text-subtle">
-                {currentIndex + 1} of {MOCK_TEMPLATES.length}
-              </span>
-              <button
-                type="button"
-                aria-label="Next template"
-                onClick={() => goToRelative(1)}
-                className="inline-flex size-9 items-center justify-center rounded-lg border border-[#CFCCC5] bg-white text-pageTitle hover:bg-gray-50"
-              >
-                <RightOutlined />
-              </button>
-            </div>
-          </section>
+  const styleTags = template.tags.filter((tag) => tag !== "ATS");
+  const isAts = template.tags.includes("ATS");
+  const sectionHeading =
+    template.sections.length === 9
+      ? "Supports all nine sections"
+      : "Sections included";
 
-          <section className="rounded-2xl border border-[#E5E3DE] bg-white p-6 sm:p-8">
-            <h1 className="font-serif text-3xl font-semibold text-pageTitle">{template.name}</h1>
+  return (
+    <div className="min-h-0 flex-1 overflow-auto px-4 py-8 sm:px-6 sm:py-10">
+      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)] lg:gap-[144px]">
+        <section className="min-w-0">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <button
+              type="button"
+              onClick={() => goToRelative(-1)}
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#CFCCC5] bg-white px-3 text-sm text-pageTitle transition-colors hover:bg-gray-50"
+            >
+              <LeftOutlined className="text-[10px]" />
+              <span>{prevTemplate.name}</span>
+            </button>
+            <p className="text-sm text-subtle">
+              Template {currentIndex + 1} of {MOCK_TEMPLATES.length}
+            </p>
+            <button
+              type="button"
+              onClick={() => goToRelative(1)}
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#CFCCC5] bg-white px-3 text-sm text-pageTitle transition-colors hover:bg-gray-50"
+            >
+              <span>{nextTemplate.name}</span>
+              <RightOutlined className="text-[10px]" />
+            </button>
+          </div>
+
+          <MockResumePreview template={template} />
+
+          <p className="mt-4 text-center text-xs text-subtle">
+            A4 · page 1 of 2 · rendered from your actual content
+          </p>
+        </section>
+
+        <section className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-[#E5E3DE] bg-white lg:self-start">
+          <div className="p-[22px]">
+            <h1 className="font-serif text-4xl font-semibold tracking-tight text-pageTitle">
+              {template.name}
+            </h1>
+
             <div className="mt-3 flex flex-wrap gap-1.5">
-              {template.tags.map((tag) => (
+              {styleTags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-md bg-lightBg px-2 py-0.5 text-xs font-medium text-subtle"
+                  className="rounded-md bg-[#EFEEEB] px-2 py-0.5 text-xs text-subtle"
                 >
                   {tag}
                 </span>
               ))}
+              {isAts ? (
+                <span className="inline-flex items-center gap-1 rounded-md border border-[#C9E6D4] bg-[#EAF6EF] px-2 py-0.5 text-xs font-medium text-[#2F6B4F]">
+                  <SafetyCertificateOutlined className="text-[11px]" />
+                  ATS-friendly
+                </span>
+              ) : null}
             </div>
-            <p className="mt-4 text-sm leading-relaxed text-[#524D44]">{template.description}</p>
 
-            <div className="mt-6 space-y-5">
+            <p className="mt-4 text-sm leading-relaxed text-[#524D44]">{template.description}</p>
+          </div>
+
+          <div className="border-t border-[#E5E3DE] p-[22px]">
+            <div className="space-y-6">
               <div>
-                <h2 className="text-xs font-semibold uppercase tracking-wide text-subtle">
+                <h2 className="text-[11px] font-semibold uppercase tracking-[0.06em] text-subtle">
                   Recommended for
                 </h2>
-                <p className="mt-1 text-sm text-pageTitle">{template.recommendedFor}</p>
-              </div>
-
-              <div>
-                <h2 className="text-xs font-semibold uppercase tracking-wide text-subtle">
-                  At a glance
-                </h2>
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-pageTitle">
-                  {template.atAGlance.map((item) => (
-                    <li key={item}>{item}</li>
+                <ul className="mt-2.5 space-y-2">
+                  {template.recommendedFor.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-pageTitle">
+                      <CheckOutlined className="mt-1 shrink-0 text-[11px] text-[#2F6B4F]" />
+                      <span>{item}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
 
               <div>
-                <h2 className="text-xs font-semibold uppercase tracking-wide text-subtle">
-                  Sections included
+                <h2 className="text-[11px] font-semibold uppercase tracking-[0.06em] text-subtle">
+                  At a glance
                 </h2>
-                <div className="mt-2 flex flex-wrap gap-2">
+                <dl className="mt-2.5 space-y-2">
+                  {template.atAGlance.map((item) => (
+                    <div
+                      key={item.label}
+                      className="flex items-baseline justify-between gap-4 text-sm"
+                    >
+                      <dt className="text-subtle">{item.label}</dt>
+                      <dd className="text-right font-medium text-pageTitle">{item.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <div>
+                <h2 className="text-[11px] font-semibold uppercase tracking-[0.06em] text-subtle">
+                  {sectionHeading}
+                </h2>
+                <div className="mt-2.5 flex flex-wrap gap-1.5">
                   {template.sections.map((section) => (
                     <span
                       key={section}
-                      className="rounded-lg border border-[#E5E3DE] bg-lightBg px-2.5 py-1 text-xs font-medium text-pageTitle"
+                      className="rounded-md bg-[#EFEEEB] px-2.5 py-1 text-xs font-normal text-secondary"
                     >
                       {section}
                     </span>
@@ -104,40 +139,29 @@ export default function TemplatePreviewView({ onCreateResume }: TemplatePreviewV
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="mt-8 flex flex-col gap-2 sm:flex-row">
-              <FooterButton
-                variant="primary"
-                onClick={() => {
-                  setTemplateId(template.id);
-                  onCreateResume?.();
-                }}
-              >
-                Use this template
-              </FooterButton>
-              <FooterButton variant="secondary" onClick={() => setView("wizard")}>
-                Back to gallery
-              </FooterButton>
-            </div>
-          </section>
-        </div>
+          <div className="flex flex-col gap-3 border-t border-[#E5E3DE] p-[22px]">
+            <FooterButton
+              variant="primary"
+              className="w-full"
+              onClick={() => {
+                setTemplateId(template.id);
+                onCreateResume?.();
+              }}
+            >
+              Use this template
+            </FooterButton>
+            <button
+              type="button"
+              onClick={() => setView("wizard")}
+              className="text-sm font-medium text-subtle transition-colors hover:text-pageTitle"
+            >
+              Back to gallery
+            </button>
+          </div>
+        </section>
       </div>
-
-      <CreateResumeFooter
-        left={<FooterButton variant="ghost" onClick={() => setView("wizard")}>Back</FooterButton>}
-        center={<span>Template preview</span>}
-        right={
-          <FooterButton
-            variant="primary"
-            onClick={() => {
-              setTemplateId(template.id);
-              onCreateResume?.();
-            }}
-          >
-            Use this template
-          </FooterButton>
-        }
-      />
     </div>
   );
 }

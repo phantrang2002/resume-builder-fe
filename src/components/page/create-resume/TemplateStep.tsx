@@ -165,11 +165,7 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                           </span>
                         ) : null}
                       </div>
-                      <p className="mt-1 text-sm text-subtle" title={template.description}>
-                        {template.description.length > 30
-                          ? `${template.description.slice(0, 30).trimEnd()}…`
-                          : template.description}
-                      </p>
+                      <p className="mt-1 text-sm text-subtle">{template.summary}</p>
 
                       <div className="mt-3 flex items-center justify-between gap-2">
                         <div className="flex flex-wrap gap-1.5">

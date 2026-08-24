@@ -26,6 +26,7 @@ type FooterButtonProps = {
   disabled?: boolean;
   variant?: "primary" | "secondary" | "ghost";
   type?: "button" | "submit";
+  className?: string;
 };
 
 export function FooterButton({
@@ -34,6 +35,7 @@ export function FooterButton({
   disabled = false,
   variant = "secondary",
   type = "button",
+  className = "",
 }: FooterButtonProps) {
   const variantClass =
     variant === "primary"
@@ -50,7 +52,10 @@ export function FooterButton({
       className={[
         "inline-flex h-10 items-center justify-center rounded-lg px-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed",
         variantClass,
-      ].join(" ")}
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       {children}
     </button>

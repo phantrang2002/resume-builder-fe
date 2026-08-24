@@ -2,7 +2,7 @@ import type { CreateResumeLocationState } from "@/components/page/create-resume/
 import { CreateResumeDraftProvider } from "@/components/page/create-resume/CreateResumeDraftContext";
 import CreateResumeHeader from "@/components/page/create-resume/CreateResumeHeader";
 import CreateResumeStepper from "@/components/page/create-resume/CreateResumeStepper";
-import CreatingOverlay from "@/components/page/create-resume/CreatingOverlay";
+import CreatingView from "@/components/page/create-resume/CreatingView";
 import DetailsStep from "@/components/page/create-resume/DetailsStep";
 import MethodStep from "@/components/page/create-resume/MethodStep";
 import TemplatePreviewView from "@/components/page/create-resume/TemplatePreviewView";
@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 function CreateResumeWizard() {
   const navigate = useNavigate();
-  const { draft } = useCreateResumeDraft();
+  const { draft, setStep } = useCreateResumeDraft();
   const [isCreating, setIsCreating] = useState(false);
 
   const selectedTemplate = getMockTemplateById(draft.templateId);
@@ -25,8 +25,9 @@ function CreateResumeWizard() {
     if (isCreating || !draft.templateId) {
       return;
     }
+    setStep(3);
     setIsCreating(true);
-  }, [draft.templateId, isCreating]);
+  }, [draft.templateId, isCreating, setStep]);
 
   const handleCreateComplete = useCallback(() => {
     const id = crypto.randomUUID();
@@ -42,7 +43,14 @@ function CreateResumeWizard() {
       <CreateResumeHeader cancelDisabled={isCreating} />
       <CreateResumeStepper />
 
-      {draft.view === "preview" ? (
+      {isCreating && selectedTemplate ? (
+        <CreatingView
+          resumeName={resumeName}
+          templateName={templateName}
+          template={selectedTemplate}
+          onComplete={handleCreateComplete}
+        />
+      ) : draft.view === "preview" ? (
         <TemplatePreviewView onCreateResume={handleCreateResume} />
       ) : draft.step === 1 ? (
         <MethodStep />
@@ -51,14 +59,6 @@ function CreateResumeWizard() {
       ) : (
         <TemplateStep onCreateResume={handleCreateResume} />
       )}
-
-      {isCreating ? (
-        <CreatingOverlay
-          resumeName={resumeName}
-          templateName={templateName}
-          onComplete={handleCreateComplete}
-        />
-      ) : null}
     </div>
   );
 }
