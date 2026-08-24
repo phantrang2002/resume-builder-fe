@@ -24,8 +24,8 @@ src/
 │   ├── layout/             # Sidebar, AuthPromoPanel
 │   └── page/               # Page-specific forms (login, signup)
 ├── hooks/auth/             # useLogin, useLogout, useSignup, session bootstrap
-├── layouts/                # AuthLayout, MainLayout
-├── pages/                  # Route page components
+├── layouts/                # AuthLayout, MainLayout, CreateResumeLayout
+├── pages/                  # Route page components (incl. resumes/new, resumes/edit)
 ├── services/
 │   ├── api/                # RTK Query (appApi, authApi, baseQuery, refreshSession)
 │   └── http/               # fetch client, executeClientRequest

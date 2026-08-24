@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Resume Wizard (UI-only)</title>
+    <link rel="stylesheet" href="./visualize-assets/visualize-theme.css" />
+  </head>
+  <body>
+    <main class="viz-shell">
+      <header class="viz-hero">
+        <p class="viz-kicker">Plan Visualization</p>
+        <h1 class="viz-title">Create Resume Wizard (UI-only)</h1>
+        <p class="viz-summary">
+          Wire empty-dashboard CTA into a sidebar-free 3-step wizard (Method → Details → Template),
+          then a fake creating overlay and placeholder editor — no create API.
+        </p>
+        <ul class="viz-meta">
+          <li>Source: <code>docs/.plans/260824-1400-create-resume-wizard/</code></li>
+          <li>Created: 2026-08-24 14:00:10</li>
+          <li>Approach A: single route <code>/resumes/new</code> + step state</li>
+          <li>Phases: 3 (M / L / M)</li>
+        </ul>
+      </header>
+
+      <section class="viz-grid">
+        <article class="viz-panel">
+          <h2>Plan Flow</h2>
+          <div class="mermaid">
+flowchart TD
+  A[Dashboard empty CTA] --> B["/resumes/new"]
+  B --> C[Phase1 Shell routes layout]
+  C --> D[Phase2 Method Details Template Preview]
+  D --> E[Phase3 Creating overlay]
+  E --> F["/resumes/:id/edit placeholder"]
+  B -.->|Cancel| A
+          </div>
+        </article>
+
+        <article class="viz-panel half">
+          <h2>Phase Timeline</h2>
+          <div class="viz-timeline">
+            <div class="viz-timeline-item">
+              <p class="viz-timeline-label">Phase 1 · M</p>
+              <p>Shell, protected non-sidebar layout, routes, wire CTA</p>
+            </div>
+            <div class="viz-timeline-item">
+              <p class="viz-timeline-label">Phase 2 · L</p>
+              <p>Method / Details / Template gallery + preview + draft context</p>
+            </div>
+            <div class="viz-timeline-item">
+              <p class="viz-timeline-label">Phase 3 · M</p>
+              <p>Creating overlay, editor stub handoff, polish + full manual pass</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="viz-panel half">
+          <h2>Risks And Questions</h2>
+          <ul>
+            <li>
+              <strong>Risk:</strong> Protected router split may break MainLayout nesting → verify
+              dashboard/admin after refactor.
+            </li>
+            <li>
+              <strong>Risk:</strong> Large Phase 2 UI surface → smoke each step before overlay.
+            </li>
+            <li>
+              <strong>Assumption:</strong> Refresh loses in-memory draft (accepted for UI-only).
+            </li>
+            <li>
+              <strong>Open (non-blocking):</strong> “See the templates” CTA and URL step sync deferred.
+            </li>
+          </ul>
+        </article>
+
+        <article class="viz-panel">
+          <h2>Verification</h2>
+          <ul>
+            <li>Per phase: <code>npm run typecheck</code>, <code>npm run lint</code></li>
+            <li>Final: optional <code>npm run build</code></li>
+            <li>
+              Manual: CTA → Method → Details → Template/Preview → overlay → editor; Cancel/Back;
+              Import disabled; auth redirect
+            </li>
+          </ul>
+          <div class="mermaid">
+flowchart LR
+  S1[Method] --> S2[Details]
+  S2 --> S3[Template]
+  S3 --> P[Preview mode]
+  P --> S3
+  S3 --> O[Creating overlay]
+  O --> E[Editor stub]
+          </div>
+        </article>
+      </section>
+    </main>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+  </body>
+</html>

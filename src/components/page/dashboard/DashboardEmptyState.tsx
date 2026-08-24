@@ -1,5 +1,7 @@
 import { LoadingOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
+import { useNavigate } from "react-router-dom";
+import { ROUTER_PATH } from "@/shared/constants";
 import ResumeStackIllustration from "./ResumeStackIllustration";
 
 type DashboardEmptyStateProps = {
@@ -57,6 +59,8 @@ function DashboardSkeleton() {
 }
 
 function DashboardEmptyContent({ firstName }: { firstName: string }) {
+  const navigate = useNavigate();
+
   return (
     <div className="flex min-h-full w-full flex-col">
       <header className="shrink-0">
@@ -83,6 +87,7 @@ function DashboardEmptyContent({ firstName }: { firstName: string }) {
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <button
               type="button"
+              onClick={() => navigate(ROUTER_PATH.RESUMES_NEW)}
               className="inline-flex h-11 min-w-[200px] items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-white transition-colors hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               Create my first resume
