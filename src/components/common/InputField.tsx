@@ -7,6 +7,7 @@ type InputFieldProps = {
   value: string;
   onChange: (value: string) => void;
   error?: string;
+  hint?: ReactNode;
   labelExtra?: ReactNode;
   showPasswordToggle?: boolean;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "value" | "onChange">;
@@ -17,6 +18,7 @@ export default function InputField({
   value,
   onChange,
   error,
+  hint,
   labelExtra,
   showPasswordToggle = false,
   type = "text",
@@ -73,11 +75,13 @@ export default function InputField({
         )}
       </div>
 
-      {error && (
+      {error ? (
         <p className="mt-1.5 flex items-center gap-1.5 text-sm text-error">
           <ExclamationCircleOutlined className="text-xs" />
           <span>{error}</span>
         </p>
+      ) : (
+        hint && <p className="mt-1.5 text-sm text-subtle">{hint}</p>
       )}
     </div>
   );

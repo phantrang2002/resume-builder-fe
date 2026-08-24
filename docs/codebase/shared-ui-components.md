@@ -27,7 +27,7 @@ Reusable pieces under `src/components/` used by auth and layout shells.
 | Component | Page |
 |-----------|------|
 | `LoginForm` | `/login` — Yup validation, inline `FormAlert`, keep-signed-in checkbox (UI state only today) |
-| `SignupForm` | `/signup` |
+| `SignupForm` | `/signup` — Yup validation, first/last name + password strength + confirm match, tips checkbox → `emailFlg` |
 
 ## Toast wiring
 

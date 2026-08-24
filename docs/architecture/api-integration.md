@@ -47,10 +47,10 @@ Profile query provides tag `["Profile"]` and syncs Redux session in `onQueryStar
 
 ## Errors & toasts
 
-- **RTK Query errors**: `apiErrorListenerMiddleware` in the store shows `toast.error(...)` for rejected RTK Query actions, except 401 (handled by auth flow).
+- **RTK Query errors**: `apiErrorListenerMiddleware` in the store shows `toast.error(...)` for rejected RTK Query actions, except 401 (handled by auth flow) and `login` (inline `FormAlert` only).
 - **Toast API**: use `toast` from `@/shared/helpers/toast` (`success` | `error` | `info`). Renders custom `AppToast` via `react-toastify` (`ToastContainer` in `main.tsx`, styles in `styles/toast.css`).
 - **Non-RTK errors**: call `showRequestErrorToast()` (e.g. session bootstrap failures).
-- **Login form**: auth failures are shown inline via `FormAlert` in the form; they are not only toast-driven.
+- **Login form**: auth failures are shown inline via `FormAlert` / field errors only — no error toast.
 
 ## Dev proxy (Vite)
 

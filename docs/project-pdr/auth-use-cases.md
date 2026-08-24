@@ -16,7 +16,7 @@ Business rules inferred from current implementation. Confirm with product/backen
 
 **Rules:**
 
-- Invalid credentials show an inline `FormAlert` on the login form (and password field error); global API error toast middleware still applies to other RTK failures.
+- Invalid credentials show an inline `FormAlert` on the login form (and password field error); the global API error toast is skipped for `login` so it does not duplicate. Other RTK failures still toast.
 - "Keep me signed in" is present in the UI but is not sent to the API yet.
 - Authenticated users visiting `/login` are redirected to `/dashboard`.
 
@@ -26,15 +26,16 @@ Business rules inferred from current implementation. Confirm with product/backen
 
 **Flow:**
 
-1. User fills email, password, first name, last name on `/signup`.
-2. Client validates with `signupSchema` (password min 8 chars).
+1. User fills first name, last name, email, password, and confirm password on `/signup`.
+2. Client validates with `signupSchema` (password min 10 chars; passwords must match).
 3. `POST /api/auth/signup` creates account and profile.
-4. On success, user is typically directed to login (page handles navigation).
+4. On success, client auto-logs in and redirects to dashboard.
 
 **Rules:**
 
-- Password minimum length: 8 characters.
-- Email format validated client-side.
+- Password minimum length: 10 characters.
+- Email format validated client-side with a strict regex (`local@domain.tld`; Yup’s default `.email()` is not used).
+- "Email me tips on writing a better CV" maps to `emailFlg` on `POST /api/auth/signup` (`true` when checked, `false` otherwise).
 
 ## UC-3: Session restore (page reload)
 
