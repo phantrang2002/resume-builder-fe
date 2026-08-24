@@ -34,8 +34,8 @@ Business rules inferred from current implementation. Confirm with product/backen
 **Rules:**
 
 - Password minimum length: 10 characters.
-- Email format validated client-side.
-- "Email me tips on writing a better CV" is present in the UI but is not sent to the API yet.
+- Email format validated client-side with a strict regex (`local@domain.tld`; Yup’s default `.email()` is not used).
+- "Email me tips on writing a better CV" maps to `emailFlg` on `POST /api/auth/signup` (`true` when checked, `false` otherwise).
 
 ## UC-3: Session restore (page reload)
 

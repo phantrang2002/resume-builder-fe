@@ -80,7 +80,7 @@ export default function LoginForm({ loading, onSubmit }: LoginFormProps) {
   };
 
   return (
-    <form className="mt-7 flex w-full flex-col" onSubmit={handleSubmit}>
+    <form className="mt-7 flex w-full flex-col" noValidate onSubmit={handleSubmit}>
       {authError && <FormAlert title={authError.title} message={authError.message} />}
 
       <div className={authError ? "mt-4 flex flex-col gap-4" : "flex flex-col gap-4"}>

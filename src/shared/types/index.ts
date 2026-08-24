@@ -23,6 +23,7 @@ export type SignupParams = {
   password: string;
   firstName: string;
   lastName: string;
+  emailFlg: boolean;
 };
 
 export type SignupFormValues = {

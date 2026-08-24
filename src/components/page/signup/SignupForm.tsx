@@ -55,17 +55,18 @@ export default function SignupForm({ loading, onSubmit }: SignupFormProps) {
       password: validated.password,
       firstName: validated.firstName,
       lastName: validated.lastName,
+      emailFlg: emailTips,
     });
   };
 
   const confirmPasswordError =
     fieldErrors.confirmPassword ||
     (form.confirmPassword.length > 0 && form.confirmPassword !== form.password
-      ? "Passwords don't match yet."
+      ? "Your passwords don't match."
       : undefined);
 
   return (
-    <form className="mt-7 flex w-full flex-col" onSubmit={handleSubmit}>
+    <form className="mt-7 flex w-full flex-col" noValidate onSubmit={handleSubmit}>
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-2 gap-4">
           <InputField
