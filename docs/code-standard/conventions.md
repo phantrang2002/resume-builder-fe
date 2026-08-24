@@ -13,7 +13,7 @@
 | Pages | `src/pages/<feature>/` + `*Page.tsx` or `page.tsx` | `LoginPage.tsx`, `dashboard/page.tsx` |
 | Page forms | `src/components/page/<feature>/` | `LoginForm.tsx` |
 | Layouts | `src/layouts/` | `MainLayout.tsx` |
-| Hooks | `src/hooks/<domain>/use*.ts` | `useLogin.ts` |
+| Hooks | `src/hooks/<domain>/use*.ts` | `useLogin.ts`, `hooks/resume/useCreateResumeWizard.ts` |
 | Redux slices | `src/app/features/<name>/` | `authSlice.ts`, `authSelector.ts` |
 | API | `src/services/api/` | `authApi.ts` (injected endpoints) |
 | Constants | `src/shared/constants/` | Grouped by domain, re-exported from `index.ts` |

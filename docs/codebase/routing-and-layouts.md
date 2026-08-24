@@ -43,7 +43,7 @@ Protected shell **without** sidebar for create/editor flows:
 
 - Full-height `lightBg` + `<Outlet />`
 - `useCrossTabLogout()` — same cross-tab logout sync as MainLayout
-- Page-level chrome (header, stepper, footer) lives in create-resume page components
+- Page-level chrome (header, stepper, footer) lives in `src/components/page/resume/new`
 
 ## Route guard pattern
 

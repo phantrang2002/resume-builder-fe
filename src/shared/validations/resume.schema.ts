@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const createResumeDetailsSchema = yup.object({
+export const resumeDetailsSchema = yup.object({
   name: yup
     .string()
     .trim()
@@ -19,4 +19,4 @@ export const createResumeDetailsSchema = yup.object({
   industry: yup.string().trim().max(80, "Industry is too long — please shorten it.").nullable().optional(),
 });
 
-export type CreateResumeDetailsValues = yup.InferType<typeof createResumeDetailsSchema>;
+export type ResumeDetailsValues = yup.InferType<typeof resumeDetailsSchema>;

@@ -1,4 +1,4 @@
-import type { CreateResumeLocationState } from "@/components/page/create-resume/createResumeTypes";
+import type { CreateResumeLocationState } from "@/shared/types";
 import { ROUTER_PATH } from "@/shared/constants";
 import { Link, useLocation, useParams } from "react-router-dom";
 

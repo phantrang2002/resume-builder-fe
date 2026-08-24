@@ -1,13 +1,13 @@
-import InputField from "@/components/common/InputField";
-import SelectField from "@/components/common/SelectField";
+import { EXPERIENCE_LEVEL_OPTIONS, INDUSTRY_OPTIONS } from "@/shared/constants";
+import type { ExperienceLevel } from "@/shared/types";
+import useCreateResumeDraft from "@/hooks/resume/useCreateResumeDraft";
 import { yupErrorsToRecord } from "@/shared/helpers";
-import { createResumeDetailsSchema } from "@/shared/validations/create-resume.schema";
+import { resumeDetailsSchema } from "@/shared/validations/resume.schema";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormEvent, useState } from "react";
-import { EXPERIENCE_LEVEL_OPTIONS, INDUSTRY_OPTIONS } from "./createResumeOptions";
 import CreateResumeFooter, { FooterButton } from "./CreateResumeFooter";
-import { useCreateResumeDraft } from "./useCreateResumeDraft";
-import type { ExperienceLevel } from "./createResumeTypes";
+import InputField from "@/components/common/InputField";
+import SelectField from "@/components/common/SelectField";
 
 export default function DetailsStep() {
   const { draft, patchDetails, setStep } = useCreateResumeDraft();
@@ -27,7 +27,7 @@ export default function DetailsStep() {
   const handleContinue = (event?: FormEvent) => {
     event?.preventDefault();
     try {
-      createResumeDetailsSchema.validateSync(
+      resumeDetailsSchema.validateSync(
         {
           name: draft.name,
           targetJobTitle: draft.targetJobTitle,
@@ -57,7 +57,7 @@ export default function DetailsStep() {
           </div>
 
           <form
-            id="create-resume-details"
+            id="resume-details"
             onSubmit={handleContinue}
             className="mt-8 space-y-5 rounded-xl border border-[#E5E3DE] bg-white p-6 sm:p-8"
           >

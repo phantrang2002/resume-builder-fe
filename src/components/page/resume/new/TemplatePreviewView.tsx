@@ -5,7 +5,7 @@ import {
 import { CheckOutlined, LeftOutlined, RightOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
 import { FooterButton } from "./CreateResumeFooter";
 import MockResumePreview from "./MockResumePreview";
-import { useCreateResumeDraft } from "./useCreateResumeDraft";
+import useCreateResumeDraft from "@/hooks/resume/useCreateResumeDraft";
 
 type TemplatePreviewViewProps = {
   onCreateResume?: () => void;

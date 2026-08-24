@@ -126,3 +126,14 @@ export type HttpClient = {
 };
 
 export type DataResponse<T> = ApiEnvelope<T>;
+
+export type {
+  CreateMethod,
+  CreatePhase,
+  CreateResumeDraft,
+  CreateResumeLocationState,
+  ExperienceLevel,
+  WizardStep,
+  WizardView,
+} from "./resume";
+

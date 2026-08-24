@@ -1,6 +1,6 @@
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { useCreateResumeDraft } from "./useCreateResumeDraft";
-import type { WizardStep } from "./createResumeTypes";
+import useCreateResumeDraft from "@/hooks/resume/useCreateResumeDraft";
+import type { WizardStep } from "@/shared/types";
 
 const STEPS: { step: WizardStep; label: string }[] = [
   { step: 1, label: "Method" },

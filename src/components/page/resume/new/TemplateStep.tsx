@@ -14,7 +14,7 @@ import {
 import { useMemo, useState } from "react";
 import SearchField from "@/components/common/SearchField";
 import CreateResumeFooter, { FooterButton } from "./CreateResumeFooter";
-import { useCreateResumeDraft } from "./useCreateResumeDraft";
+import useCreateResumeDraft from "@/hooks/resume/useCreateResumeDraft";
 import TemplateThumb from "./TemplateThumb";
 
 type TemplateStepProps = {

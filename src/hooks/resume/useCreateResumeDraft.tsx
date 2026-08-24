@@ -1,10 +1,10 @@
-import { createContext, useMemo, useState, type ReactNode } from "react";
 import type {
   CreateMethod,
   CreateResumeDraft,
   WizardStep,
   WizardView,
-} from "./createResumeTypes";
+} from "@/shared/types";
+import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 
 export type CreateResumeDraftContextValue = {
   draft: CreateResumeDraft;
@@ -30,7 +30,7 @@ const INITIAL_DRAFT: CreateResumeDraft = {
   templateId: null,
 };
 
-export const CreateResumeDraftContext = createContext<CreateResumeDraftContextValue | null>(null);
+const CreateResumeDraftContext = createContext<CreateResumeDraftContextValue | null>(null);
 
 export function CreateResumeDraftProvider({ children }: { children: ReactNode }) {
   const [draft, setDraft] = useState<CreateResumeDraft>(INITIAL_DRAFT);
@@ -50,4 +50,12 @@ export function CreateResumeDraftProvider({ children }: { children: ReactNode })
   return (
     <CreateResumeDraftContext.Provider value={value}>{children}</CreateResumeDraftContext.Provider>
   );
+}
+
+export default function useCreateResumeDraft() {
+  const context = useContext(CreateResumeDraftContext);
+  if (!context) {
+    throw new Error("useCreateResumeDraft must be used within CreateResumeDraftProvider");
+  }
+  return context;
 }

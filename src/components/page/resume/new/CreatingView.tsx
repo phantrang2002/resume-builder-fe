@@ -1,10 +1,10 @@
 import type { MockTemplate } from "@/shared/constants/mock-templates";
+import useCreatingProgress from "@/hooks/resume/useCreatingProgress";
 import {
   CheckCircleFilled,
   InfoCircleOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
-import { useEffect, useMemo, useState } from "react";
 import TemplateThumb from "./TemplateThumb";
 
 export type CreatingViewProps = {
@@ -14,60 +14,16 @@ export type CreatingViewProps = {
   onComplete: () => void;
 };
 
-const STAGE_MS = 650;
-
-const SHORT_STATUS = [
-  "Creating the record",
-  "Adding sections",
-  "Applying the template",
-  "Opening the editor",
-] as const;
-
 export default function CreatingView({
   resumeName,
   templateName,
   template,
   onComplete,
 }: CreatingViewProps) {
-  const stages = useMemo(
-    () => [
-      "Creating the resume record",
-      "Adding your nine sections",
-      `Applying the ${templateName} template`,
-      "Opening the editor",
-    ],
-    [templateName],
+  const { stages, activeStage, progress, shortStatus } = useCreatingProgress(
+    templateName,
+    onComplete,
   );
-
-  const [activeStage, setActiveStage] = useState(0);
-
-  useEffect(() => {
-    const timers: number[] = [];
-
-    stages.forEach((_, index) => {
-      if (index === 0) {
-        return;
-      }
-      timers.push(
-        window.setTimeout(() => {
-          setActiveStage(index);
-        }, STAGE_MS * index),
-      );
-    });
-
-    timers.push(
-      window.setTimeout(() => {
-        onComplete();
-      }, STAGE_MS * stages.length),
-    );
-
-    return () => {
-      timers.forEach((timer) => window.clearTimeout(timer));
-    };
-  }, [onComplete, stages]);
-
-  const progress = Math.round(((activeStage + 0.7) / stages.length) * 100);
-  const shortStatus = SHORT_STATUS[activeStage] ?? SHORT_STATUS[0];
 
   return (
     <div
@@ -98,12 +54,12 @@ export default function CreatingView({
           <div className="h-2.5 overflow-hidden rounded-full bg-[#EFEEEB]">
             <div
               className="h-full rounded-full bg-primary transition-[width] duration-500 ease-out"
-              style={{ width: `${Math.min(progress, 100)}%` }}
+              style={{ width: `${progress}%` }}
             />
           </div>
           <div className="mt-2 flex items-center justify-between gap-3 text-xs">
             <span className="text-subtle">{shortStatus}</span>
-            <span className="tabular-nums text-[#1F1D19]">{Math.min(progress, 100)}%</span>
+            <span className="tabular-nums text-[#1F1D19]">{progress}%</span>
           </div>
         </div>
 

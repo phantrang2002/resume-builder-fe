@@ -1,7 +1,7 @@
+import useCreateResumeDraft from "@/hooks/resume/useCreateResumeDraft";
+import type { CreateMethod } from "@/shared/types";
 import { ROUTER_PATH } from "@/shared/constants";
 import CreateResumeFooter, { FooterButton } from "./CreateResumeFooter";
-import { useCreateResumeDraft } from "./useCreateResumeDraft";
-import type { CreateMethod } from "./createResumeTypes";
 import TemplateThumb from "./TemplateThumb";
 import {
   CheckOutlined,

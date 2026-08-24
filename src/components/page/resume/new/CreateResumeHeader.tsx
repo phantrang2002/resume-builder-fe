@@ -1,7 +1,7 @@
 import { ROUTER_PATH } from "@/shared/constants";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { useCreateResumeDraft } from "./useCreateResumeDraft";
+import useCreateResumeDraft from "@/hooks/resume/useCreateResumeDraft";
 
 type CreateResumeHeaderProps = {
   cancelDisabled?: boolean;

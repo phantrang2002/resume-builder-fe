@@ -17,7 +17,7 @@ export default function CreatingErrorView({ onRetry, onBack }: CreatingErrorView
     <div
       className="flex min-h-0 flex-1 flex-col overflow-auto px-4 py-10 sm:px-6 sm:py-14"
       role="alert"
-      aria-labelledby="create-resume-error-title"
+      aria-labelledby="resume-create-error-title"
     >
       <div className="m-auto w-full max-w-[520px] rounded-xl border border-[#F0D4D4] bg-white px-6 py-8 shadow-sm sm:px-8 sm:py-9">
         <div className="flex justify-center">
@@ -25,7 +25,7 @@ export default function CreatingErrorView({ onRetry, onBack }: CreatingErrorView
         </div>
 
         <h1
-          id="create-resume-error-title"
+          id="resume-create-error-title"
           className="mt-5 text-center font-serif text-[28px] font-semibold leading-tight tracking-tight text-pageTitle sm:text-[32px]"
         >
           Something went wrong
