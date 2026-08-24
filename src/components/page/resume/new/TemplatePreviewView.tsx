@@ -155,7 +155,7 @@ export default function TemplatePreviewView({ onCreateResume }: TemplatePreviewV
             <button
               type="button"
               onClick={() => setView("wizard")}
-              className="text-sm font-medium text-subtle transition-colors hover:text-pageTitle"
+              className="text-sm font-medium text-subtle transition-colors hover:text-pageTitle py-[7px]"
             >
               Back to gallery
             </button>

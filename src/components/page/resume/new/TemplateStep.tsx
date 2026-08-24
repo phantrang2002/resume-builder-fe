@@ -112,14 +112,22 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                         : "border-[#E5E3DE] shadow-sm hover:border-primary/35",
                     ].join(" ")}
                   >
-                    {/* Preview stage */}
+                    {/* Preview stage — select hit target is limited to this area */}
                     <div
                       className={[
                         "relative px-4 pb-4 pt-4",
                         selected ? "bg-[#EEF2F7]" : "bg-[#F4F3F0]",
                       ].join(" ")}
                     >
-                      <div className="flex min-h-[148px] w-full items-center justify-center py-1">
+                      <button
+                        type="button"
+                        aria-pressed={selected}
+                        aria-label={`Select ${template.name} template`}
+                        className="absolute inset-0 z-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary"
+                        onClick={() => setTemplateId(template.id)}
+                      />
+
+                      <div className="pointer-events-none relative z-[1] flex min-h-[148px] w-full items-center justify-center py-1">
                         <TemplateThumb template={template} />
                       </div>
 
@@ -134,7 +142,8 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                         <button
                           type="button"
                           className="pointer-events-auto inline-flex h-9 items-center gap-1.5 rounded-md border border-white/80 bg-white px-3 text-xs font-medium text-pageTitle hover:bg-gray-50"
-                          onClick={() => {
+                          onClick={(event) => {
+                            event.stopPropagation();
                             setTemplateId(template.id);
                             setView("preview");
                           }}
@@ -145,7 +154,8 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                         <button
                           type="button"
                           className="pointer-events-auto inline-flex h-9 items-center rounded-md bg-primary px-3 text-xs font-medium text-white hover:bg-primary/90"
-                          onClick={() => {
+                          onClick={(event) => {
+                            event.stopPropagation();
                             setTemplateId(template.id);
                             onCreateResume?.();
                           }}
@@ -155,8 +165,8 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                       </div>
                     </div>
 
-                    {/* Meta */}
-                    <div className="relative px-4 pb-4 pt-3">
+                    {/* Meta — outside select hit target */}
+                    <div className="px-4 pb-4 pt-3">
                       <div className="flex items-center justify-between gap-2">
                         <h2 className="text-[15px] font-semibold text-[#1F1D19]">{template.name}</h2>
                         {selected ? (
@@ -187,7 +197,7 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
 
                         <button
                           type="button"
-                          className="relative z-20 inline-flex shrink-0 items-center gap-0.5 text-xs font-medium text-primary hover:underline"
+                          className="inline-flex shrink-0 items-center gap-0.5 text-xs font-medium text-primary hover:underline"
                           onClick={() => {
                             setTemplateId(template.id);
                             setView("preview");
@@ -198,15 +208,6 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                         </button>
                       </div>
                     </div>
-
-                    {/* Full-card select hit target */}
-                    <button
-                      type="button"
-                      aria-pressed={selected}
-                      aria-label={`Select ${template.name} template`}
-                      className="absolute inset-0 z-10 cursor-pointer rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                      onClick={() => setTemplateId(template.id)}
-                    />
                   </article>
                 );
               })}
