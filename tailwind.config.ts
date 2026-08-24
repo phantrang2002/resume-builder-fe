@@ -7,7 +7,7 @@ export default {
       colors: {
         primary: "#2E4C74",
         pageTitle: "#1a1a1a",
-        lightBg: "#f5f7fa",
+        lightBg: "#F7F7F5",
         authNavy: "#253D5D",
         authTeal: "#3BB5B0",
         authMuted: "#64748B",

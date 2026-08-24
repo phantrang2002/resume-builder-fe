@@ -74,7 +74,7 @@ export default function SignupForm({ loading, onSubmit }: SignupFormProps) {
             label="First name"
             value={form.firstName}
             autoComplete="given-name"
-            placeholder="Nguyen"
+            placeholder="Trang"
             disabled={loading}
             error={fieldErrors.firstName}
             onChange={(value) => updateField("firstName", value)}
@@ -85,7 +85,7 @@ export default function SignupForm({ loading, onSubmit }: SignupFormProps) {
             label="Last name"
             value={form.lastName}
             autoComplete="family-name"
-            placeholder="Minh Tran"
+            placeholder="Phan"
             disabled={loading}
             error={fieldErrors.lastName}
             onChange={(value) => updateField("lastName", value)}

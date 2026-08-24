@@ -19,8 +19,7 @@ Reusable pieces under `src/components/` used by auth and layout shells.
 | Component | Used for |
 |-----------|----------|
 | `AuthPromoPanel` | Left promo column on auth pages (brand, copy, preview image) |
-| `Header` | Authenticated top bar (user info, logout) |
-| `Sidebar` | Authenticated navigation |
+| `Sidebar` | Authenticated nav, tip callout, user profile + logout |
 
 ## Page forms (`components/page/`)
 
@@ -28,6 +27,7 @@ Reusable pieces under `src/components/` used by auth and layout shells.
 |-----------|------|
 | `LoginForm` | `/login` — Yup validation, inline `FormAlert`, keep-signed-in checkbox (UI state only today) |
 | `SignupForm` | `/signup` — Yup validation, first/last name + password strength + confirm match, tips checkbox → `emailFlg` |
+| `DashboardEmptyState` | `/dashboard` — empty-state welcome card + create/template CTAs; `isLoading` shows resume-list skeleton |
 
 ## Toast wiring
 

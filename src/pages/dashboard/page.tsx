@@ -1,20 +1,10 @@
 import { selectSession } from "@/app/features/auth/authSelector";
 import { useAppSelector } from "@/app/store/hooks";
-import { Card, Descriptions } from "antd";
+import DashboardEmptyState from "@/components/page/dashboard/DashboardEmptyState";
 
 export default function DashboardPage() {
   const session = useAppSelector(selectSession);
+  const firstName = session?.firstName?.trim() || "there";
 
-  return (
-    <Card title="Dashboard">
-      <Descriptions column={1} bordered size="small">
-        <Descriptions.Item label="User ID">{session?.userId}</Descriptions.Item>
-        <Descriptions.Item label="Email">{session?.email}</Descriptions.Item>
-        <Descriptions.Item label="Role">{session?.role}</Descriptions.Item>
-        <Descriptions.Item label="Name">
-          {[session?.firstName, session?.lastName].filter(Boolean).join(" ") || "—"}
-        </Descriptions.Item>
-      </Descriptions>
-    </Card>
-  );
+  return <DashboardEmptyState firstName={firstName} isLoading={false} />;
 }
