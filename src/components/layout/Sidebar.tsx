@@ -1,6 +1,7 @@
 import { selectSession } from "@/app/features/auth/authSelector";
 import { useAppSelector } from "@/app/store/hooks";
 import useLogout from "@/hooks/auth/useLogout";
+import { useGetResumesQuery } from "@/services/api";
 import { ROUTER_PATH } from "@/shared/constants";
 import {
   AppstoreOutlined,
@@ -16,14 +17,6 @@ import { Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import { NavLink } from "react-router-dom";
 
-const navItems = [
-  { to: ROUTER_PATH.DASHBOARD, label: "Dashboard", icon: <AppstoreOutlined /> },
-  { to: null, label: "My resumes", icon: <FileTextOutlined /> },
-  { to: null, label: "Templates", icon: <AppstoreOutlined /> },
-  { to: null, label: "Exports", icon: <DownloadOutlined /> },
-  { to: null, label: "Job match", icon: <SolutionOutlined /> },
-] as const;
-
 function getInitials(firstName?: string, lastName?: string, email?: string) {
   const fromName = [firstName?.[0], lastName?.[0]].filter(Boolean).join("");
   if (fromName) {
@@ -34,7 +27,7 @@ function getInitials(firstName?: string, lastName?: string, email?: string) {
 
 function navClassName(isActive: boolean) {
   return [
-    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
+    "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-colors",
     isActive
       ? "bg-[#F2F5F9] font-semibold text-[#253D5D]"
       : "font-normal text-[#1F1D19] hover:bg-[#F2F5F9]/60 hover:text-[#253D5D]",
@@ -48,6 +41,8 @@ function navIconClassName(isActive: boolean) {
 export default function Sidebar() {
   const session = useAppSelector(selectSession);
   const { logout } = useLogout();
+  const { data: resumesData } = useGetResumesQuery();
+  const resumeCount = resumesData?.data?.summary?.total;
 
   const fullName =
     [session?.firstName, session?.lastName].filter(Boolean).join(" ").trim() || "Your account";
@@ -65,6 +60,19 @@ export default function Sidebar() {
     },
   ];
 
+  const navItems = [
+    { to: ROUTER_PATH.DASHBOARD, label: "Dashboard", icon: <AppstoreOutlined /> },
+    {
+      to: ROUTER_PATH.RESUMES,
+      label: "My resumes",
+      icon: <FileTextOutlined />,
+      badge: resumeCount,
+    },
+    { to: null, label: "Templates", icon: <AppstoreOutlined /> },
+    { to: null, label: "Exports", icon: <DownloadOutlined /> },
+    { to: null, label: "Job match", icon: <SolutionOutlined /> },
+  ] as const;
+
   return (
     <aside className="flex h-screen w-[248px] shrink-0 flex-col border-r border-[#E5E7EB] bg-white">
       <div className="px-5 pb-2 pt-6">
@@ -81,7 +89,12 @@ export default function Sidebar() {
               {({ isActive }) => (
                 <>
                   <span className={navIconClassName(isActive)}>{item.icon}</span>
-                  {item.label}
+                  <span className="flex-1">{item.label}</span>
+                  {"badge" in item && item.badge != null && item.badge > 0 ? (
+                    <span className="rounded-sm bg-[#EFEEEB] px-[6px] py-0.5 text-xs text-subtle">
+                      {item.badge}
+                    </span>
+                  ) : null}
                 </>
               )}
             </NavLink>

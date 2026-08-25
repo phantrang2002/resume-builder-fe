@@ -101,12 +101,8 @@ export default function useCreateResumeWizard() {
 
     navigate(resumeEditPath(String(createdResumeId)), {
       replace: true,
-      state: {
-        draftSnapshot: draft,
-        templateName,
-      },
     });
-  }, [createdResumeId, draft, navigate, phase, progressDone, templateName]);
+  }, [createdResumeId, navigate, phase, progressDone]);
 
   const retryCreate = useCallback(() => {
     void startCreate();

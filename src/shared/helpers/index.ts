@@ -96,6 +96,45 @@ export function parseTemplateId(value: string | null | undefined): number | null
   return id;
 }
 
+/** Format ISO timestamps like `2026-08-25T10:00:00.000Z` → `Edited 2 hours ago`. */
+export function formatRelativeEditedAt(iso: string | null | undefined): string {
+  if (!iso) {
+    return "Edited recently";
+  }
+
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) {
+    return "Edited recently";
+  }
+
+  const diffMs = Date.now() - date.getTime();
+  const diffMinutes = Math.floor(diffMs / 60_000);
+
+  if (diffMinutes < 1) {
+    return "Edited just now";
+  }
+  if (diffMinutes < 60) {
+    return `Edited ${diffMinutes} minute${diffMinutes === 1 ? "" : "s"} ago`;
+  }
+
+  const diffHours = Math.floor(diffMinutes / 60);
+  if (diffHours < 24) {
+    return `Edited ${diffHours} hour${diffHours === 1 ? "" : "s"} ago`;
+  }
+
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays < 7) {
+    return `Edited ${diffDays} day${diffDays === 1 ? "" : "s"} ago`;
+  }
+
+  return `Edited ${date.toLocaleDateString("en-GB", { day: "numeric", month: "short" })}`;
+}
+
+/** Human-readable resume status label. */
+export function formatResumeStatus(status: string): string {
+  return status.charAt(0) + status.slice(1).toLowerCase();
+}
+
 /** Format API month values like `2023-03` → `Mar 2023`. */
 export function formatPreviewDate(value: string | null | undefined): string {
   if (!value) {
