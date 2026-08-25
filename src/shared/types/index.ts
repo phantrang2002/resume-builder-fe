@@ -136,11 +136,27 @@ export type {
   CreateResumeParams,
   ExperienceLevel,
   ExperienceLevelApi,
+  GetResumesParams,
+  ResumeListItem,
+  ResumeSortKey,
+  ResumeStatus,
+  ResumeStatusFilter,
+  ResumesData,
+  ResumesSummary,
+  ResumeTemplateFilter,
   WizardStep,
   WizardView,
 } from "./resume";
 
 export type { IndustriesData, Industry } from "./industry";
+
+export type {
+  EditorSectionId,
+  EditorSectionMeta,
+  EditorSectionStatus,
+  ResumeEditorState,
+  WorkExperienceEntry,
+} from "./resumeEditor";
 
 export type {
   CertificationsPreviewData,

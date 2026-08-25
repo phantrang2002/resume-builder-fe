@@ -1,75 +1,81 @@
-import type { CreateResumeLocationState } from "@/shared/types";
+import ResumeEditorHeader from "@/components/page/resume/edit/ResumeEditorHeader";
+import ResumeEditorPreviewPane from "@/components/page/resume/edit/ResumeEditorPreviewPane";
+import ResumeEditorSectionContent from "@/components/page/resume/edit/ResumeEditorSectionContent";
+import ResumeEditorSidebar from "@/components/page/resume/edit/ResumeEditorSidebar";
+import useResumeEditor from "@/hooks/resume/useResumeEditor";
 import { ROUTER_PATH } from "@/shared/constants";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
+import { Link } from "react-router-dom";
 
-export default function ResumeEditorPlaceholderPage() {
-  const { id } = useParams<{ id: string }>();
-  const location = useLocation();
-  const state = (location.state as CreateResumeLocationState | null) ?? null;
-  const draft = state?.draftSnapshot;
-  const resumeName = draft?.name?.trim() || "Untitled resume";
-  const templateName = state?.templateName;
-  const targetJobTitle = draft?.targetJobTitle?.trim();
+export default function ResumeEditorPage() {
+  const editor = useResumeEditor();
+
+  if (editor.isLoading) {
+    return (
+      <div className="flex h-full min-h-0 flex-col items-center justify-center gap-3 bg-lightBg text-sm text-subtle">
+        <Spin indicator={<LoadingOutlined spin />} />
+        Loading resume…
+      </div>
+    );
+  }
+
+  if (editor.isError || !editor.resume) {
+    return (
+      <div className="flex h-full min-h-0 flex-col items-center justify-center gap-4 bg-lightBg px-6 text-center">
+        <div>
+          <h1 className="font-serif text-xl font-semibold text-pageTitle">Couldn&apos;t load this resume</h1>
+          <p className="mt-2 text-sm text-subtle">
+            It may have been deleted or you don&apos;t have access.
+          </p>
+        </div>
+        <Link
+          to={ROUTER_PATH.RESUMES}
+          className="inline-flex h-10 items-center rounded-lg bg-primary px-4 text-sm font-medium text-white hover:bg-primary/90"
+        >
+          Back to My resumes
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <header className="flex shrink-0 items-center justify-between border-b border-[#E5E3DE] bg-white px-4 py-4 sm:px-6">
-        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-          <div className="inline-flex shrink-0 items-baseline gap-1.5 font-serif text-[20px] font-semibold leading-none tracking-tight text-[#333333]">
-            Rezum
-            <span className="size-[5px] shrink-0 rounded-full bg-primary" aria-hidden="true" />
-          </div>
-          <span className="truncate text-sm font-medium text-pageTitle">{resumeName}</span>
-        </div>
-        <Link
-          to={ROUTER_PATH.DASHBOARD}
-          className="rounded-lg px-3 py-2 text-sm font-medium text-subtle transition-colors hover:bg-gray-50 hover:text-pageTitle"
-        >
-          Back to dashboard
-        </Link>
-      </header>
+      <ResumeEditorHeader
+        title={editor.title}
+        onTitleChange={editor.setTitle}
+        saveStatus={editor.saveStatus}
+      />
 
-      <main className="flex min-h-0 flex-1 items-center justify-center px-4 py-10 sm:px-6">
-        <div className="w-full max-w-lg rounded-2xl border border-[#E5E3DE] bg-white p-8 text-center">
-          <h1 className="font-serif text-2xl font-semibold text-pageTitle">Editor coming soon</h1>
-          <p className="mt-3 text-sm leading-relaxed text-subtle">
-            Your create flow handed off successfully. The full editor will land here in a later
-            release.
-          </p>
+      <div className="flex min-h-0 flex-1">
+        <ResumeEditorSidebar
+          sections={editor.sections}
+          activeSectionId={editor.activeSectionId}
+          completionPercent={editor.completionPercent}
+          emptySectionCount={editor.emptySectionCount}
+          onSectionSelect={editor.setActiveSectionId}
+        />
 
-          <dl className="mt-6 space-y-2 rounded-xl bg-lightBg px-4 py-4 text-left text-sm">
-            {id ? (
-              <div className="flex justify-between gap-3">
-                <dt className="text-subtle">Resume id</dt>
-                <dd className="truncate font-mono text-xs text-pageTitle">{id}</dd>
-              </div>
-            ) : null}
-            <div className="flex justify-between gap-3">
-              <dt className="text-subtle">Name</dt>
-              <dd className="truncate font-medium text-pageTitle">{resumeName}</dd>
-            </div>
-            {templateName ? (
-              <div className="flex justify-between gap-3">
-                <dt className="text-subtle">Template</dt>
-                <dd className="truncate font-medium text-pageTitle">{templateName}</dd>
-              </div>
-            ) : null}
-            {targetJobTitle ? (
-              <div className="flex justify-between gap-3">
-                <dt className="text-subtle">Target role</dt>
-                <dd className="truncate font-medium text-pageTitle">{targetJobTitle}</dd>
-              </div>
-            ) : null}
-          </dl>
+        <main className="flex min-h-0 min-w-0 flex-1 flex-col bg-lightBg">
+          <ResumeEditorSectionContent
+            activeSectionId={editor.activeSectionId}
+            workExperience={editor.workExperience}
+            onCollapseAllWorkEntries={editor.collapseAllWorkEntries}
+            onToggleWorkEntryExpanded={editor.toggleWorkEntryExpanded}
+            onPatchWorkEntry={editor.patchWorkEntry}
+            onUpdateHighlight={editor.updateHighlight}
+            onRemoveHighlight={editor.removeHighlight}
+            onAddHighlight={editor.addHighlight}
+            onUpdateTechnologies={editor.updateTechnologies}
+            onAddWorkEntry={editor.addWorkEntry}
+          />
+        </main>
 
-          <Link
-            to={ROUTER_PATH.DASHBOARD}
-            className="mt-8 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-white transition-colors hover:bg-primary/90"
-          >
-            Back to dashboard
-          </Link>
-        </div>
-      </main>
+        <ResumeEditorPreviewPane
+          templateId={editor.templateId}
+          templateName={editor.templateName}
+        />
+      </div>
     </div>
   );
 }

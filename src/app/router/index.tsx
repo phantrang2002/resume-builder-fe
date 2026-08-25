@@ -15,7 +15,8 @@ import ForgotPasswordPage from "@/pages/forgot-password/ForgotPasswordPage";
 import LoginPage from "@/pages/login/LoginPage";
 import NotFoundPage from "@/pages/not-found/NotFoundPage";
 import CreateResumePage from "@/pages/resumes/new/page";
-import ResumeEditorPlaceholderPage from "@/pages/resumes/edit/page";
+import ResumeEditorPage from "@/pages/resumes/edit/page";
+import ResumesPage from "@/pages/resumes/page";
 import ResetPasswordPage from "@/pages/reset-password/ResetPasswordPage";
 import { NO_ACCESS_PERMISSION_MESSAGE, ROUTER_PATH } from "@/shared/constants";
 import { useEffect } from "react";
@@ -98,6 +99,7 @@ export default function AppRouter() {
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
           <Route path={ROUTER_PATH.DASHBOARD} element={<DashboardPage />} />
+          <Route path={ROUTER_PATH.RESUMES} element={<ResumesPage />} />
           <Route element={<AdminProtectedRoute />}>
             <Route path="/admin" element={<AdminOnlyPage />} />
           </Route>
@@ -105,7 +107,7 @@ export default function AppRouter() {
 
         <Route element={<CreateResumeLayout />}>
           <Route path={ROUTER_PATH.RESUMES_NEW} element={<CreateResumePage />} />
-          <Route path={ROUTER_PATH.RESUME_EDIT} element={<ResumeEditorPlaceholderPage />} />
+          <Route path={ROUTER_PATH.RESUME_EDIT} element={<ResumeEditorPage />} />
         </Route>
       </Route>
 

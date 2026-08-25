@@ -5,6 +5,7 @@ export const ROUTER_PATH = {
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
   DASHBOARD: "/dashboard",
+  RESUMES: "/resumes",
   RESUMES_NEW: "/resumes/new",
   RESUME_EDIT: "/resumes/:id/edit",
   NOT_FOUND: "/404",
