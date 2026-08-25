@@ -13,6 +13,7 @@ import {
 } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import type { MenuProps } from "antd";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type ResumeCardProps = {
@@ -114,12 +115,26 @@ function ProgressBar({ ratio, showLabel = false }: { ratio: number; showLabel?: 
 }
 
 function CardMenu({ menuItems }: { menuItems: MenuProps["items"] }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dropdown menu={{ items: menuItems }} trigger={["click"]} placement="bottomRight">
+    <Dropdown
+      menu={{ items: menuItems }}
+      trigger={["click"]}
+      placement="bottomRight"
+      open={open}
+      onOpenChange={setOpen}
+    >
       <button
         type="button"
         aria-label="Resume options"
-        className="inline-flex size-7 shrink-0 items-center justify-center rounded-md text-subtle transition-colors hover:bg-gray-50 hover:text-pageTitle"
+        aria-expanded={open}
+        className={[
+          "inline-flex size-7 shrink-0 items-center justify-center rounded-md transition-colors",
+          open
+            ? "bg-[#EFEEEB] text-pageTitle"
+            : "text-subtle hover:bg-[#EFEEEB] hover:text-pageTitle",
+        ].join(" ")}
         onClick={(event) => event.stopPropagation()}
       >
         <EllipsisOutlined />
