@@ -72,7 +72,7 @@ export default function ResumesErrorState({
 
   return (
     <div
-      className="flex flex-1 items-center justify-center py-[48px] sm:py-16"
+      className="flex flex-1 items-center justify-center py-[52px] sm:py-16"
       role="alert"
       aria-labelledby="resumes-error-title"
     >

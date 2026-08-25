@@ -1,4 +1,7 @@
 import ResumeCard from "@/components/page/resumes/ResumeCard";
+import ResumesEmptyState, {
+  ResumesFilteredEmptyState,
+} from "@/components/page/resumes/ResumesEmptyState";
 import ResumesErrorState from "@/components/page/resumes/ResumesErrorState";
 import ResumesToolbar from "@/components/page/resumes/ResumesToolbar";
 import useResumesPage from "@/hooks/resume/useResumesPage";
@@ -35,23 +38,24 @@ export default function ResumesPage() {
             My resumes
           </h1>
           <p className="mt-[2px] text-sm text-subtle">
-            {total} resume{total === 1 ? "" : "s"}
-            {tailoredCount > 0
-              ? ` · ${tailoredCount} tailored to a specific job`
-              : ""}
+            {page.isTrulyEmpty
+              ? "No resumes yet"
+              : `${total} resume${total === 1 ? "" : "s"}${tailoredCount > 0 ? ` · ${tailoredCount} tailored to a specific job` : ""}`}
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => navigate(ROUTER_PATH.RESUMES_NEW)}
-          className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-white transition-colors hover:bg-primary/90"
-        >
-          New resume
-        </button>
+        {!page.isError && !page.isTrulyEmpty ? (
+          <button
+            type="button"
+            onClick={() => navigate(ROUTER_PATH.RESUMES_NEW)}
+            className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+          >
+            New resume
+          </button>
+        ) : null}
       </header>
 
-      {!page.isError ? (
+      {!page.isError && !page.isTrulyEmpty ? (
         <div className="mt-6">
           <ResumesToolbar
             search={page.search}
@@ -78,17 +82,10 @@ export default function ResumesPage() {
             onRetry={() => void page.refetch()}
             isRetrying={page.isRefetching}
           />
-        ) : page.items.length === 0 ? (
-          <div className="rounded-2xl border border-[#E3E1DC] bg-white px-6 py-10 text-center">
-            <p className="text-sm text-subtle">No resumes match your filters.</p>
-            <button
-              type="button"
-              onClick={() => navigate(ROUTER_PATH.RESUMES_NEW)}
-              className="mt-4 text-sm font-medium text-primary hover:underline"
-            >
-              Create a new resume
-            </button>
-          </div>
+        ) : page.isTrulyEmpty ? (
+          <ResumesEmptyState />
+        ) : page.isFilteredEmpty ? (
+          <ResumesFilteredEmptyState />
         ) : page.viewMode === "grid" ? (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
             {page.items.map((resume) => (

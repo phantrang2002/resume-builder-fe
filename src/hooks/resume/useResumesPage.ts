@@ -45,6 +45,10 @@ export default function useResumesPage() {
   const activeSortLabel =
     SORT_OPTIONS.find((option) => option.value === sortKey)?.label ?? "Last edited";
 
+  const hasActiveFilters = statusFilter !== "all" || Boolean(search.trim());
+  const isTrulyEmpty = !isLoading && !isError && items.length === 0 && !hasActiveFilters;
+  const isFilteredEmpty = !isLoading && !isError && items.length === 0 && hasActiveFilters;
+
   return {
     search,
     setSearch,
@@ -60,6 +64,9 @@ export default function useResumesPage() {
     items,
     summary,
     total: summary?.total ?? items.length,
+    hasActiveFilters,
+    isTrulyEmpty,
+    isFilteredEmpty,
     isLoading,
     isFetching,
     isError,
