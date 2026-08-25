@@ -70,7 +70,7 @@ export type ResumeSortKey = "updatedAt";
 export type ResumeTemplateFilter = "all" | "modern" | "minimal" | "classic" | "ats";
 
 export type GetResumesParams = {
-  search?: string;
+  q?: string;
   status?: ResumeStatus;
   sort?: ResumeSortKey;
   page?: number;

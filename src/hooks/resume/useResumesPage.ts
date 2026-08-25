@@ -30,7 +30,7 @@ export default function useResumesPage() {
 
   const queryParams = useMemo(
     () => ({
-      search: search.trim() || undefined,
+      q: search.trim() || undefined,
       sort: sortKey,
       status: toApiStatus(statusFilter),
     }),

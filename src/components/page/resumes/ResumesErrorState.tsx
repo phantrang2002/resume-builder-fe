@@ -1,7 +1,11 @@
 import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons";
+import { getApiErrorMessage } from "@/shared/helpers";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const SUPPORT_EMAIL = "support@rezum.app";
+
+const SERVER_ERROR_DESCRIPTION =
+  "The server didn't respond. Your work is safe — nothing was lost. Check your connection and try again.";
 
 type ResumesErrorMeta = {
   requestId?: string;
@@ -19,6 +23,31 @@ function readRecord(value: unknown): Record<string, unknown> | null {
     return null;
   }
   return value as Record<string, unknown>;
+}
+
+function isServerError(error: unknown): boolean {
+  const fetchError = readRecord(error) as FetchBaseQueryError | null;
+  if (!fetchError || !("status" in fetchError)) {
+    return true;
+  }
+
+  if (fetchError.status === "FETCH_ERROR" || fetchError.status === "PARSING_ERROR") {
+    return true;
+  }
+
+  if (typeof fetchError.status === "number") {
+    return fetchError.status >= 500;
+  }
+
+  return false;
+}
+
+function getResumesErrorDescription(error: unknown): string {
+  if (isServerError(error)) {
+    return SERVER_ERROR_DESCRIPTION;
+  }
+
+  return getApiErrorMessage(error);
 }
 
 function getResumesErrorMeta(error: unknown): ResumesErrorMeta {
@@ -69,6 +98,7 @@ export default function ResumesErrorState({
   isRetrying = false,
 }: ResumesErrorStateProps) {
   const meta = getResumesErrorMeta(error);
+  const description = getResumesErrorDescription(error);
 
   return (
     <div
@@ -90,8 +120,7 @@ export default function ResumesErrorState({
           We couldn&apos;t load your resumes
         </h2>
         <p className="mx-auto mt-[14px] max-w-[380px] text-sm leading-relaxed text-secondary">
-          The server didn&apos;t respond. Your work is safe — nothing was lost. Check your connection
-          and try again.
+          {description}
         </p>
 
         <div className="mt-[14px] flex flex-wrap items-center justify-center gap-x-4 gap-y-3">

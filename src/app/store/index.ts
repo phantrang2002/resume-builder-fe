@@ -12,7 +12,12 @@ const apiErrorListenerMiddleware: Middleware = () => (next) => (action) => {
       action.meta as { arg?: { endpointName?: string } } | undefined
     )?.arg?.endpointName;
     // Login failures are shown inline via FormAlert — skip duplicate toast.
-    if (status !== HTTP_STATUS.UNAUTHORIZED && endpointName !== "login") {
+    // getResumes failures are shown inline on the resumes page.
+    if (
+      status !== HTTP_STATUS.UNAUTHORIZED &&
+      endpointName !== "login" &&
+      endpointName !== "getResumes"
+    ) {
       toast.error(getApiErrorMessage(action.payload));
     }
   }
