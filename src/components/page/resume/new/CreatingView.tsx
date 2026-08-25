@@ -1,4 +1,4 @@
-import type { MockTemplate } from "@/shared/constants/mock-templates";
+import type { ResumeTemplate } from "@/shared/types";
 import useCreatingProgress from "@/hooks/resume/useCreatingProgress";
 import {
   CheckCircleFilled,
@@ -10,7 +10,7 @@ import TemplateThumb from "./TemplateThumb";
 export type CreatingViewProps = {
   resumeName: string;
   templateName: string;
-  template: MockTemplate;
+  template?: ResumeTemplate;
   onComplete: () => void;
 };
 
@@ -33,12 +33,14 @@ export default function CreatingView({
       aria-labelledby="creating-resume-title"
     >
       <div className="m-auto w-full max-w-[520px] rounded-xl border border-[#E5E3DE] bg-white px-6 py-8 shadow-sm sm:px-8 sm:py-9">
-        <div className="flex justify-center">
-          <TemplateThumb
-            template={template}
-            className="!h-[88px] !w-[66px] rounded-[4px] shadow-sm"
-          />
-        </div>
+        {template ? (
+          <div className="flex justify-center">
+            <TemplateThumb
+              template={template}
+              className="!h-[88px] !w-[66px] rounded-[4px] shadow-sm"
+            />
+          </div>
+        ) : null}
 
         <h1
           id="creating-resume-title"

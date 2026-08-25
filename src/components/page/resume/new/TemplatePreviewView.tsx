@@ -1,35 +1,96 @@
 import {
-  getMockTemplateById,
-  MOCK_TEMPLATES,
-} from "@/shared/constants/mock-templates";
-import { CheckOutlined, LeftOutlined, RightOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
+  CheckOutlined,
+  LeftOutlined,
+  RightOutlined,
+  SafetyCertificateOutlined,
+} from "@ant-design/icons";
 import { FooterButton } from "./CreateResumeFooter";
-import MockResumePreview from "./MockResumePreview";
+import TemplatePreviewImage from "./TemplatePreviewImage";
 import useCreateResumeDraft from "@/hooks/resume/useCreateResumeDraft";
+import { useGetTemplateByIdQuery } from "@/services/api";
+import { parseTemplateId } from "@/shared/helpers";
 
 type TemplatePreviewViewProps = {
   onCreateResume?: () => void;
 };
 
+const AT_A_GLANCE_LABELS: Record<string, string> = {
+  layout: "Layout",
+  paper: "Paper",
+  typeface: "Typeface",
+  bestLength: "Best length",
+  photoSupported: "Photo",
+};
+
 export default function TemplatePreviewView({ onCreateResume }: TemplatePreviewViewProps) {
   const { draft, setTemplateId, setView } = useCreateResumeDraft();
-  const template = getMockTemplateById(draft.templateId) ?? MOCK_TEMPLATES[0];
-  const currentIndex = MOCK_TEMPLATES.findIndex((item) => item.id === template.id);
-  const prevTemplate =
-    MOCK_TEMPLATES[(currentIndex - 1 + MOCK_TEMPLATES.length) % MOCK_TEMPLATES.length];
-  const nextTemplate = MOCK_TEMPLATES[(currentIndex + 1) % MOCK_TEMPLATES.length];
+  const templateId = parseTemplateId(draft.templateId);
+  const { data, isLoading, isError } = useGetTemplateByIdQuery(templateId ?? 0, {
+    skip: templateId == null,
+  });
 
-  const goToRelative = (delta: number) => {
-    const nextIndex = (currentIndex + delta + MOCK_TEMPLATES.length) % MOCK_TEMPLATES.length;
-    setTemplateId(MOCK_TEMPLATES[nextIndex].id);
-  };
+  const template = data?.data;
 
-  const styleTags = template.tags.filter((tag) => tag !== "ATS");
-  const isAts = template.tags.includes("ATS");
+  if (templateId == null) {
+    return (
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 px-4 py-8 text-sm text-subtle">
+        <p>Select a template from the gallery first.</p>
+        <button
+          type="button"
+          onClick={() => setView("wizard")}
+          className="font-medium text-primary hover:underline"
+        >
+          Back to gallery
+        </button>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-0 flex-1 items-center justify-center px-4 py-8 text-sm text-subtle">
+        Loading template…
+      </div>
+    );
+  }
+
+  if (isError || !template) {
+    return (
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 px-4 py-8 text-sm text-subtle">
+        <p>Couldn’t load this template.</p>
+        <button
+          type="button"
+          onClick={() => setView("wizard")}
+          className="font-medium text-primary hover:underline"
+        >
+          Back to gallery
+        </button>
+      </div>
+    );
+  }
+
+  const styleTags = template.tags.filter((tag) => tag.toLowerCase() !== "ats");
+  const isAts = template.tags.some((tag) => tag.toLowerCase() === "ats");
+  const sectionDetails = template.supportedSectionDetails?.length
+    ? template.supportedSectionDetails
+    : template.supportedSections.map((type) => ({ type, label: type }));
   const sectionHeading =
-    template.sections.length === 9
-      ? "Supports all nine sections"
+    sectionDetails.length >= 9
+      ? "Supports all standard sections"
       : "Sections included";
+  const gallery = template.gallery;
+  const prevTemplate = gallery?.prev ?? null;
+  const nextTemplate = gallery?.next ?? null;
+  const atAGlanceEntries = template.atAGlance
+    ? Object.entries(template.atAGlance).map(([key, value]) => ({
+        label: AT_A_GLANCE_LABELS[key] ?? key,
+        value: typeof value === "boolean" ? (value ? "Supported" : "Not supported") : String(value),
+      }))
+    : [];
+  const paperLabel =
+    template.pageFormats?.length > 0
+      ? template.pageFormats.join(" · ")
+      : template.atAGlance?.paper || "A4";
 
   return (
     <div className="min-h-0 flex-1 overflow-auto px-4 py-8 sm:px-6 sm:py-10">
@@ -38,29 +99,39 @@ export default function TemplatePreviewView({ onCreateResume }: TemplatePreviewV
           <div className="mb-4 flex items-center justify-between gap-3">
             <button
               type="button"
-              onClick={() => goToRelative(-1)}
-              className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#CFCCC5] bg-white px-3 text-sm text-pageTitle transition-colors hover:bg-gray-50"
+              disabled={!prevTemplate}
+              onClick={() => {
+                if (prevTemplate) {
+                  setTemplateId(String(prevTemplate.id));
+                }
+              }}
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#CFCCC5] bg-white px-3 text-sm text-pageTitle transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <LeftOutlined className="text-[10px]" />
-              <span>{prevTemplate.name}</span>
+              <span>{prevTemplate?.name ?? "Previous"}</span>
             </button>
             <p className="text-sm text-subtle">
-              Template {currentIndex + 1} of {MOCK_TEMPLATES.length}
+              Template {gallery?.index ?? 1} of {gallery?.total ?? 1}
             </p>
             <button
               type="button"
-              onClick={() => goToRelative(1)}
-              className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#CFCCC5] bg-white px-3 text-sm text-pageTitle transition-colors hover:bg-gray-50"
+              disabled={!nextTemplate}
+              onClick={() => {
+                if (nextTemplate) {
+                  setTemplateId(String(nextTemplate.id));
+                }
+              }}
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#CFCCC5] bg-white px-3 text-sm text-pageTitle transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <span>{nextTemplate.name}</span>
+              <span>{nextTemplate?.name ?? "Next"}</span>
               <RightOutlined className="text-[10px]" />
             </button>
           </div>
 
-          <MockResumePreview template={template} />
+          <TemplatePreviewImage template={template} />
 
           <p className="mt-4 text-center text-xs text-subtle">
-            A4 · page 1 of 2 · rendered from your actual content
+            {paperLabel} · page 1 of 2 · sample preview content
           </p>
         </section>
 
@@ -92,48 +163,52 @@ export default function TemplatePreviewView({ onCreateResume }: TemplatePreviewV
 
           <div className="border-t border-[#E5E3DE] p-[22px]">
             <div className="space-y-6">
-              <div>
-                <h2 className="text-[11px] font-semibold uppercase tracking-[0.06em] text-subtle">
-                  Recommended for
-                </h2>
-                <ul className="mt-2.5 space-y-2">
-                  {template.recommendedFor.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-pageTitle">
-                      <CheckOutlined className="mt-1 shrink-0 text-[11px] text-[#2F6B4F]" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {template.recommendedFor?.length ? (
+                <div>
+                  <h2 className="text-[11px] font-semibold uppercase tracking-[0.06em] text-subtle">
+                    Recommended for
+                  </h2>
+                  <ul className="mt-2.5 space-y-2">
+                    {template.recommendedFor.map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm text-pageTitle">
+                        <CheckOutlined className="mt-1 shrink-0 text-[11px] text-[#2F6B4F]" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
 
-              <div>
-                <h2 className="text-[11px] font-semibold uppercase tracking-[0.06em] text-subtle">
-                  At a glance
-                </h2>
-                <dl className="mt-2.5 space-y-2">
-                  {template.atAGlance.map((item) => (
-                    <div
-                      key={item.label}
-                      className="flex items-baseline justify-between gap-4 text-sm"
-                    >
-                      <dt className="text-subtle">{item.label}</dt>
-                      <dd className="text-right font-medium text-pageTitle">{item.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
+              {atAGlanceEntries.length ? (
+                <div>
+                  <h2 className="text-[11px] font-semibold uppercase tracking-[0.06em] text-subtle">
+                    At a glance
+                  </h2>
+                  <dl className="mt-2.5 space-y-2">
+                    {atAGlanceEntries.map((item) => (
+                      <div
+                        key={item.label}
+                        className="flex items-baseline justify-between gap-4 text-sm"
+                      >
+                        <dt className="text-subtle">{item.label}</dt>
+                        <dd className="text-right font-medium text-pageTitle">{item.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              ) : null}
 
               <div>
                 <h2 className="text-[11px] font-semibold uppercase tracking-[0.06em] text-subtle">
                   {sectionHeading}
                 </h2>
                 <div className="mt-2.5 flex flex-wrap gap-1.5">
-                  {template.sections.map((section) => (
+                  {sectionDetails.map((section) => (
                     <span
-                      key={section}
+                      key={section.type}
                       className="rounded-md bg-[#EFEEEB] px-2.5 py-1 text-xs font-normal text-secondary"
                     >
-                      {section}
+                      {section.label}
                     </span>
                   ))}
                 </div>
@@ -146,7 +221,7 @@ export default function TemplatePreviewView({ onCreateResume }: TemplatePreviewV
               variant="primary"
               className="w-full"
               onClick={() => {
-                setTemplateId(template.id);
+                setTemplateId(String(template.id));
                 onCreateResume?.();
               }}
             >
@@ -155,7 +230,7 @@ export default function TemplatePreviewView({ onCreateResume }: TemplatePreviewV
             <button
               type="button"
               onClick={() => setView("wizard")}
-              className="text-sm font-medium text-subtle transition-colors hover:text-pageTitle py-[7px]"
+              className="py-[7px] text-sm font-medium text-subtle transition-colors hover:text-pageTitle"
             >
               Back to gallery
             </button>

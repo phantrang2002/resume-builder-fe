@@ -21,6 +21,9 @@ export const API_ENDPOINT = {
   AUTH_SIGNUP: "auth/signup",
   AUTH_FORGOT_PASSWORD: "auth/forgot-password",
   AUTH_RESET_PASSWORD: "auth/reset-password",
+  INDUSTRIES: "industries",
+  TEMPLATES: "templates",
+  RESUMES: "resumes",
 } as const;
 
 /** Paths that do not require a Bearer access token. */

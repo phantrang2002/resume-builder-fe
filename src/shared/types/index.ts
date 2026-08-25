@@ -130,10 +130,34 @@ export type DataResponse<T> = ApiEnvelope<T>;
 export type {
   CreateMethod,
   CreatePhase,
+  CreateResumeData,
   CreateResumeDraft,
   CreateResumeLocationState,
+  CreateResumeParams,
   ExperienceLevel,
+  ExperienceLevelApi,
   WizardStep,
   WizardView,
 } from "./resume";
+
+export type { IndustriesData, Industry } from "./industry";
+
+export type {
+  CertificationsPreviewData,
+  EducationPreviewData,
+  LanguagesPreviewData,
+  PersonalInfoPreviewData,
+  ProjectsPreviewData,
+  ResumeTemplate,
+  ResumeTemplateDetail,
+  SkillsPreviewData,
+  SummaryPreviewData,
+  TemplateAtAGlance,
+  TemplateGallery,
+  TemplateListFilter,
+  TemplatePreviewSection,
+  TemplateSectionDetail,
+  TemplatesData,
+  WorkExperiencePreviewData,
+} from "./template";
 

@@ -1,6 +1,8 @@
 import useCreateResumeDraft from "@/hooks/resume/useCreateResumeDraft";
+import useResumeTemplates from "@/hooks/resume/useResumeTemplates";
 import type { CreateMethod } from "@/shared/types";
 import { ROUTER_PATH } from "@/shared/constants";
+import { truncateText } from "@/shared/helpers";
 import CreateResumeFooter, { FooterButton } from "./CreateResumeFooter";
 import TemplateThumb from "./TemplateThumb";
 import {
@@ -12,7 +14,6 @@ import {
   InfoCircleOutlined,
   SafetyCertificateOutlined,
 } from "@ant-design/icons";
-import { METHOD_TEASER_TEMPLATES } from "@/shared/constants/mock-templates";
 import { useNavigate } from "react-router-dom";
 
 const METHODS: {
@@ -55,8 +56,9 @@ const METHODS: {
 export default function MethodStep() {
   const navigate = useNavigate();
   const { draft, setMethod, setStep } = useCreateResumeDraft();
+  const { templates, isLoading } = useResumeTemplates();
   const canContinue = draft.method === "scratch" || draft.method === "template";
-  const teaserTemplates = METHOD_TEASER_TEMPLATES;
+  const teaserTemplates = templates.slice(0, 3);
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
@@ -162,22 +164,26 @@ export default function MethodStep() {
                   All ATS-friendly
                 </span>
               </div>
-              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
-                {teaserTemplates.map((template) => (
-                  <div key={template.id} className="flex items-start gap-3">
-                    <TemplateThumb
-                      template={template}
-                      className="!h-[70px] !w-[52px] shrink-0 rounded-[4px] shadow-sm"
-                    />
-                    <div className="min-w-0 pt-0.5">
-                      <p className="text-sm font-semibold text-pageTitle">{template.name}</p>
-                      <p className="mt-0.5 text-xs text-subtle">
-                        {template.teaserSubtitle}
-                      </p>
+              {isLoading ? (
+                <p className="mt-4 text-sm text-subtle">Loading templates…</p>
+              ) : (
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
+                  {teaserTemplates.map((template) => (
+                    <div key={template.id} className="flex items-start gap-3">
+                      <TemplateThumb
+                        template={template}
+                        className="!h-[70px] !w-[52px] shrink-0 rounded-[4px] shadow-sm"
+                      />
+                      <div className="min-w-0 pt-0.5">
+                        <p className="text-sm font-semibold text-pageTitle">{template.name}</p>
+                        <p className="mt-0.5 text-xs text-subtle">
+                          {truncateText(template.description, 64)}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </section>
           ) : null}
 

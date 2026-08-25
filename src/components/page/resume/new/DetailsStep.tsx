@@ -1,10 +1,11 @@
-import { EXPERIENCE_LEVEL_OPTIONS, INDUSTRY_OPTIONS } from "@/shared/constants";
+import { EXPERIENCE_LEVEL_OPTIONS } from "@/shared/constants";
 import type { ExperienceLevel } from "@/shared/types";
 import useCreateResumeDraft from "@/hooks/resume/useCreateResumeDraft";
+import { useGetIndustriesQuery } from "@/services/api";
 import { yupErrorsToRecord } from "@/shared/helpers";
 import { resumeDetailsSchema } from "@/shared/validations/resume.schema";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import CreateResumeFooter, { FooterButton } from "./CreateResumeFooter";
 import InputField from "@/components/common/InputField";
 import SelectField from "@/components/common/SelectField";
@@ -12,6 +13,17 @@ import SelectField from "@/components/common/SelectField";
 export default function DetailsStep() {
   const { draft, patchDetails, setStep } = useCreateResumeDraft();
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const { data: industriesEnvelope, isLoading: industriesLoading } = useGetIndustriesQuery();
+
+  const industryOptions = useMemo(() => {
+    const items = industriesEnvelope?.data?.items ?? [];
+    return [...items]
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((industry) => ({
+        value: String(industry.id),
+        label: industry.name,
+      }));
+  }, [industriesEnvelope]);
 
   const clearError = (field: string) => {
     setFieldErrors((prev) => {
@@ -32,7 +44,7 @@ export default function DetailsStep() {
           name: draft.name,
           targetJobTitle: draft.targetJobTitle,
           experienceLevel: draft.experienceLevel,
-          industry: draft.industry,
+          industryId: draft.industryId,
         },
         { abortEarly: false },
       );
@@ -124,14 +136,12 @@ export default function DetailsStep() {
             <SelectField
               id="industry"
               label="Industry"
-              value={draft.industry ?? ""}
-              placeholder="Select an industry"
-              options={INDUSTRY_OPTIONS.map((industry) => ({
-                value: industry,
-                label: industry,
-              }))}
+              value={draft.industryId ?? ""}
+              placeholder={industriesLoading ? "Loading industries…" : "Select an industry"}
+              options={industryOptions}
+              disabled={industriesLoading}
               labelExtra={<span className="text-xs font-normal text-inputMuted">Optional</span>}
-              onChange={(value) => patchDetails({ industry: value ? value : null })}
+              onChange={(value) => patchDetails({ industryId: value ? value : null })}
             />
           </form>
 

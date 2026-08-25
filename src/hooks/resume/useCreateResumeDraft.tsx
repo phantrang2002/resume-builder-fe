@@ -11,7 +11,7 @@ export type CreateResumeDraftContextValue = {
   setMethod: (method: CreateMethod) => void;
   patchDetails: (
     patch: Partial<
-      Pick<CreateResumeDraft, "name" | "targetJobTitle" | "experienceLevel" | "industry">
+      Pick<CreateResumeDraft, "name" | "targetJobTitle" | "experienceLevel" | "industryId">
     >,
   ) => void;
   setTemplateId: (templateId: string | null) => void;
@@ -26,7 +26,7 @@ const INITIAL_DRAFT: CreateResumeDraft = {
   name: "",
   targetJobTitle: "",
   experienceLevel: null,
-  industry: null,
+  industryId: null,
   templateId: null,
 };
 

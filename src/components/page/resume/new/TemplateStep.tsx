@@ -1,11 +1,4 @@
 import {
-  filterMockTemplates,
-  getMockTemplateById,
-  MOCK_TEMPLATES,
-  TEMPLATE_FILTERS,
-  type TemplateFilter,
-} from "@/shared/constants/mock-templates";
-import {
   CheckCircleFilled,
   EyeOutlined,
   RightOutlined,
@@ -15,6 +8,8 @@ import { useMemo, useState } from "react";
 import SearchField from "@/components/common/SearchField";
 import CreateResumeFooter, { FooterButton } from "./CreateResumeFooter";
 import useCreateResumeDraft from "@/hooks/resume/useCreateResumeDraft";
+import useResumeTemplates from "@/hooks/resume/useResumeTemplates";
+import { truncateText } from "@/shared/helpers";
 import TemplateThumb from "./TemplateThumb";
 
 type TemplateStepProps = {
@@ -23,15 +18,16 @@ type TemplateStepProps = {
 
 export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
   const { draft, setStep, setTemplateId, setView } = useCreateResumeDraft();
+  const { filters, total, isLoading, getTemplateById, filterTemplates } = useResumeTemplates();
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<TemplateFilter>("All");
+  const [filterKey, setFilterKey] = useState("all");
 
   const templates = useMemo(
-    () => filterMockTemplates(MOCK_TEMPLATES, search, filter),
-    [search, filter],
+    () => filterTemplates(search, filterKey),
+    [filterTemplates, search, filterKey],
   );
 
-  const selectedTemplate = getMockTemplateById(draft.templateId);
+  const selectedTemplate = getTemplateById(draft.templateId);
   const hasSelection = Boolean(selectedTemplate);
 
   return (
@@ -44,7 +40,9 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                 Choose a template
               </h1>
               <p className="mt-2 text-sm text-subtle">
-                All eight render the same content. You can switch later without retyping anything.
+                {total > 0
+                  ? `All ${total} render the same content. You can switch later without retyping anything.`
+                  : "Pick a layout now. You can switch later without retyping anything."}
               </p>
             </div>
 
@@ -61,14 +59,15 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
 
           <div className="mt-[18px] flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-wrap items-center gap-2">
-              {TEMPLATE_FILTERS.map((item) => {
-                const active = filter === item;
-                const label = item === "All" ? `All ${MOCK_TEMPLATES.length}` : item;
+              {filters.map((item) => {
+                const active = filterKey === item.key;
+                const label =
+                  item.key === "all" ? `${item.label} ${item.count || total}` : item.label;
                 return (
                   <button
-                    key={item}
+                    key={item.key}
                     type="button"
-                    onClick={() => setFilter(item)}
+                    onClick={() => setFilterKey(item.key)}
                     className={[
                       "h-9 rounded-md px-3.5 text-sm transition-colors",
                       active
@@ -90,16 +89,18 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
             ) : null}
           </div>
 
-          {templates.length === 0 ? (
+          {isLoading ? (
+            <p className="mt-12 text-center text-sm text-subtle">Loading templates…</p>
+          ) : templates.length === 0 ? (
             <p className="mt-12 text-center text-sm text-subtle">
               No templates match your search. Try a different filter.
             </p>
           ) : (
             <div className="mt-[18px] grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {templates.map((template) => {
-                const selected = draft.templateId === template.id;
-                const styleTags = template.tags.filter((tag) => tag !== "ATS");
-                const isAts = template.tags.includes("ATS");
+                const selected = draft.templateId === String(template.id);
+                const styleTags = template.tags.filter((tag) => tag.toLowerCase() !== "ats");
+                const isAts = template.tags.some((tag) => tag.toLowerCase() === "ats");
 
                 return (
                   <article
@@ -112,7 +113,6 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                         : "border-[#E5E3DE] shadow-sm hover:border-primary/35",
                     ].join(" ")}
                   >
-                    {/* Preview stage — select hit target is limited to this area */}
                     <div
                       className={[
                         "relative px-4 pb-4 pt-4",
@@ -124,7 +124,7 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                         aria-pressed={selected}
                         aria-label={`Select ${template.name} template`}
                         className="absolute inset-0 z-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary"
-                        onClick={() => setTemplateId(template.id)}
+                        onClick={() => setTemplateId(String(template.id))}
                       />
 
                       <div className="pointer-events-none relative z-[1] flex min-h-[148px] w-full items-center justify-center py-1">
@@ -137,14 +137,13 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                         </span>
                       ) : null}
 
-                      {/* Hover actions above the select layer */}
                       <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 bg-[#1a1a1a]/50 opacity-0 transition-opacity group-hover:opacity-100">
                         <button
                           type="button"
                           className="pointer-events-auto inline-flex h-9 items-center gap-1.5 rounded-md border border-white/80 bg-white px-3 text-xs font-medium text-pageTitle hover:bg-gray-50"
                           onClick={(event) => {
                             event.stopPropagation();
-                            setTemplateId(template.id);
+                            setTemplateId(String(template.id));
                             setView("preview");
                           }}
                         >
@@ -156,7 +155,7 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                           className="pointer-events-auto inline-flex h-9 items-center rounded-md bg-primary px-3 text-xs font-medium text-white hover:bg-primary/90"
                           onClick={(event) => {
                             event.stopPropagation();
-                            setTemplateId(template.id);
+                            setTemplateId(String(template.id));
                             onCreateResume?.();
                           }}
                         >
@@ -165,7 +164,6 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                       </div>
                     </div>
 
-                    {/* Meta — outside select hit target */}
                     <div className="px-4 pb-4 pt-3">
                       <div className="flex items-center justify-between gap-2">
                         <h2 className="text-[15px] font-semibold text-[#1F1D19]">{template.name}</h2>
@@ -175,7 +173,9 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                           </span>
                         ) : null}
                       </div>
-                      <p className="mt-1 text-sm text-subtle">{template.summary}</p>
+                      <p className="mt-1 text-sm text-subtle">
+                        {truncateText(template.description, 25)}
+                      </p>
 
                       <div className="mt-3 flex items-center justify-between gap-2">
                         <div className="flex flex-wrap gap-1.5">
@@ -199,7 +199,7 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                           type="button"
                           className="inline-flex shrink-0 items-center gap-0.5 text-xs font-medium text-primary hover:underline"
                           onClick={() => {
-                            setTemplateId(template.id);
+                            setTemplateId(String(template.id));
                             setView("preview");
                           }}
                         >

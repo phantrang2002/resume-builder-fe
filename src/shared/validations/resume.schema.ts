@@ -16,7 +16,12 @@ export const resumeDetailsSchema = yup.object({
     .oneOf(["intern", "junior", "mid", "senior"])
     .nullable()
     .optional(),
-  industry: yup.string().trim().max(80, "Industry is too long — please shorten it.").nullable().optional(),
+  industryId: yup
+    .string()
+    .trim()
+    .matches(/^\d+$/u, "Please select a valid industry.")
+    .nullable()
+    .optional(),
 });
 
 export type ResumeDetailsValues = yup.InferType<typeof resumeDetailsSchema>;

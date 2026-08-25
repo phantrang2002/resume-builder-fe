@@ -5,13 +5,9 @@ export const EXPERIENCE_LEVEL_OPTIONS = [
   { value: "senior", label: "Senior" },
 ] as const;
 
-export const INDUSTRY_OPTIONS = [
-  "Technology",
-  "Finance",
-  "Healthcare",
-  "Education",
-  "Marketing",
-  "Design",
-  "Consulting",
-  "Other",
-] as const;
+export const EXPERIENCE_LEVEL_API_MAP = {
+  intern: "INTERN",
+  junior: "JUNIOR",
+  mid: "MID",
+  senior: "SENIOR",
+} as const;

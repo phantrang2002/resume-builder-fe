@@ -30,7 +30,7 @@ function CreateResumeWizard() {
       <CreateResumeHeader cancelDisabled={isBusy} />
       <CreateResumeStepper hasError={phase === "error"} />
 
-      {phase === "creating" && selectedTemplate ? (
+      {phase === "creating" ? (
         <CreatingView
           resumeName={resumeName}
           templateName={templateName}
