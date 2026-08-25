@@ -1,3 +1,4 @@
+import ActionButton from "@/components/common/ActionButton";
 import { FileTextOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { ROUTER_PATH } from "@/shared/constants";
@@ -36,13 +37,13 @@ export default function ResumesEmptyState() {
           role without touching the original.
         </p>
 
-        <button
-          type="button"
+        <ActionButton
+          fullWidth={false}
           onClick={() => navigate(ROUTER_PATH.RESUMES_NEW)}
-          className="mt-[14px] inline-flex h-10 items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+          className="mt-[14px] px-5 font-medium"
         >
           Create a resume
-        </button>
+        </ActionButton>
       </div>
     </div>
   );

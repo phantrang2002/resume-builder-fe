@@ -5,6 +5,7 @@ import {
   SafetyCertificateOutlined,
 } from "@ant-design/icons";
 import { useMemo, useState } from "react";
+import ActionButton from "@/components/common/ActionButton";
 import SearchField from "@/components/common/SearchField";
 import CreateResumeFooter, { FooterButton } from "./CreateResumeFooter";
 import useCreateResumeDraft from "@/hooks/resume/useCreateResumeDraft";
@@ -83,7 +84,7 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
 
             {selectedTemplate ? (
               <p className="inline-flex items-center gap-2 text-sm text-secondary">
-                <CheckCircleFilled className="text-base text-[#2F6B4F]" />
+                <CheckCircleFilled className="text-base text-success" />
                 <span>{selectedTemplate.name} selected</span>
               </p>
             ) : null}
@@ -150,9 +151,9 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                           <EyeOutlined />
                           Preview
                         </button>
-                        <button
-                          type="button"
-                          className="pointer-events-auto inline-flex h-9 items-center rounded-md bg-primary px-3 text-xs font-medium text-white hover:bg-primary/90"
+                        <ActionButton
+                          fullWidth={false}
+                          className="pointer-events-auto h-9 rounded-md px-3 text-xs font-medium"
                           onClick={(event) => {
                             event.stopPropagation();
                             setTemplateId(String(template.id));
@@ -160,7 +161,7 @@ export default function TemplateStep({ onCreateResume }: TemplateStepProps) {
                           }}
                         >
                           Use this template
-                        </button>
+                        </ActionButton>
                       </div>
                     </div>
 

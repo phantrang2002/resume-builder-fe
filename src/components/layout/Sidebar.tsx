@@ -1,3 +1,4 @@
+import UserAvatar, { getUserInitials } from "@/components/common/UserAvatar";
 import { selectSession } from "@/app/features/auth/authSelector";
 import { useAppSelector } from "@/app/store/hooks";
 import useLogout from "@/hooks/auth/useLogout";
@@ -16,14 +17,6 @@ import {
 import { Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import { NavLink } from "react-router-dom";
-
-function getInitials(firstName?: string, lastName?: string, email?: string) {
-  const fromName = [firstName?.[0], lastName?.[0]].filter(Boolean).join("");
-  if (fromName) {
-    return fromName.toUpperCase();
-  }
-  return (email?.[0] ?? "?").toUpperCase();
-}
 
 function navClassName(isActive: boolean) {
   return [
@@ -47,7 +40,7 @@ export default function Sidebar() {
   const fullName =
     [session?.firstName, session?.lastName].filter(Boolean).join(" ").trim() || "Your account";
   const email = session?.email ?? "";
-  const initials = getInitials(session?.firstName, session?.lastName, session?.email);
+  const initials = getUserInitials(session?.firstName, session?.lastName, session?.email);
 
   const menuItems: MenuProps["items"] = [
     {
@@ -138,9 +131,7 @@ export default function Sidebar() {
 
         <div className="border-t border-[#E5E7EB] px-3 pt-3">
           <div className="flex items-center gap-2.5 px-1 py-1.5">
-            <div className="flex size-[30px] shrink-0 items-center justify-center rounded-full border border-[#C4D2E3] bg-[#F2F5F9] text-[11px] font-semibold tracking-wide text-[#253D5D]">
-              {initials}
-            </div>
+            <UserAvatar initials={initials} size="sm" />
             <div className="min-w-0 flex-1">
               <p className="truncate text-[13px] font-semibold text-[#333333]">{fullName}</p>
               <p className="truncate text-[11px] text-[#6B7280]">{email}</p>

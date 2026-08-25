@@ -1,4 +1,5 @@
-import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons";
+import ActionButton from "@/components/common/ActionButton";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { getApiErrorMessage } from "@/shared/helpers";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
@@ -124,22 +125,15 @@ export default function ResumesErrorState({
         </p>
 
         <div className="mt-[14px] flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
-          <button
-            type="button"
+          <ActionButton
+            fullWidth={false}
             onClick={onRetry}
-            disabled={isRetrying}
-            aria-busy={isRetrying}
-            className="inline-flex h-10 min-w-[120px] items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-white transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-80"
+            loading={isRetrying}
+            loadingLabel="Retrying…"
+            className="min-w-[120px] px-5 font-medium"
           >
-            {isRetrying ? (
-              <>
-                <LoadingOutlined spin className="text-base" />
-                Retrying…
-              </>
-            ) : (
-              "Try again"
-            )}
-          </button>
+            Try again
+          </ActionButton>
           <a
             href={`mailto:${SUPPORT_EMAIL}`}
             className="text-sm font-medium text-secondary transition-colors hover:text-primary hover:underline"

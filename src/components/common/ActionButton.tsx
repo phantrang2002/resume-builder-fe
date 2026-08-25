@@ -5,12 +5,14 @@ type ActionButtonProps = {
   children: ReactNode;
   loading?: boolean;
   loadingLabel?: string;
+  fullWidth?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function ActionButton({
   children,
   loading = false,
   loadingLabel = "Signing you in...",
+  fullWidth = true,
   disabled,
   className,
   type = "button",
@@ -24,7 +26,10 @@ export default function ActionButton({
       disabled={isDisabled}
       aria-busy={loading}
       className={[
-        "flex h-12 w-full items-center justify-center gap-2 rounded-lg text-sm font-semibold text-white transition-colors",
+        fullWidth
+          ? "flex h-10 w-full"
+          : "inline-flex h-10 w-auto shrink-0",
+        "items-center justify-center gap-2 rounded-md text-sm font-semibold text-white transition-colors",
         loading
           ? "bg-primary/75"
           : "bg-primary hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",

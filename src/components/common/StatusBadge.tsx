@@ -10,7 +10,7 @@ export type StatusBadgeVariant =
   | "ats-friendly";
 
 const VARIANT_STYLES: Record<StatusBadgeVariant, string> = {
-  draft: "border-[#E5E7EB] bg-[#F3F4F6] text-[#4B5563]",
+  draft: "border-[#E3E1DC] bg-[#EFEEEB] text-secondary",
   default: "border-[#DBEAFE] bg-[#EFF6FF] text-[#1E40AF]",
   ready: "border-[#D1FAE5] bg-[#ECFDF5] text-[#065F46]",
   incomplete: "border-[#FFEDD5] bg-[#FFF7ED] text-[#9A3412]",

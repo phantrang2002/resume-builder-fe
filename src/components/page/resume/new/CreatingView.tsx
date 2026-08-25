@@ -74,7 +74,7 @@ export default function CreatingView({
               <li key={label} className="flex items-center gap-3 text-sm">
                 <span className="inline-flex size-5 shrink-0 items-center justify-center text-[16px] leading-none">
                   {done ? (
-                    <CheckCircleFilled className="text-[#2F6B4F]" />
+                    <CheckCircleFilled className="text-success" />
                   ) : current ? (
                     <SyncOutlined className="text-primary" spin />
                   ) : (

@@ -1,3 +1,4 @@
+import ActionButton from "@/components/common/ActionButton";
 import type { ReactNode } from "react";
 
 type CreateResumeFooterProps = {
@@ -27,6 +28,7 @@ type FooterButtonProps = {
   variant?: "primary" | "secondary" | "ghost";
   type?: "button" | "submit";
   className?: string;
+  fullWidth?: boolean;
 };
 
 export function FooterButton({
@@ -36,13 +38,26 @@ export function FooterButton({
   variant = "secondary",
   type = "button",
   className = "",
+  fullWidth = false,
 }: FooterButtonProps) {
+  if (variant === "primary") {
+    return (
+      <ActionButton
+        type={type}
+        disabled={disabled}
+        onClick={onClick}
+        fullWidth={fullWidth}
+        className={["px-4 font-medium", className].filter(Boolean).join(" ")}
+      >
+        {children}
+      </ActionButton>
+    );
+  }
+
   const variantClass =
-    variant === "primary"
-      ? "bg-primary text-white hover:bg-primary/90 focus-visible:outline-primary disabled:bg-primary/50"
-      : variant === "ghost"
-        ? "text-subtle hover:bg-gray-50 hover:text-pageTitle focus-visible:outline-gray-400"
-        : "border border-gray-300 bg-white text-pageTitle hover:bg-gray-50 focus-visible:outline-gray-400 disabled:opacity-50";
+    variant === "ghost"
+      ? "text-subtle hover:bg-gray-50 hover:text-pageTitle focus-visible:outline-gray-400"
+      : "border border-gray-300 bg-white text-pageTitle hover:bg-gray-50 focus-visible:outline-gray-400 disabled:opacity-50";
 
   return (
     <button

@@ -23,10 +23,17 @@ export default {
         secondary: "#524D44",
         inputFocus: "#456590",
         inputMuted: "#A8A49B",
+        success: "#2F6E4E",
       },
       fontFamily: {
         sans: ['"Inter"', "sans-serif"],
         serif: ['"Source Serif 4"', "Georgia", "serif"],
+      },
+      borderRadius: {
+        sm: "4px",
+        md: "6px",
+        lg: "8px",
+        xl: "12px",
       },
     },
   },

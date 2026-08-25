@@ -219,7 +219,7 @@ export default function TemplatePreviewView({ onCreateResume }: TemplatePreviewV
           <div className="flex flex-col gap-3 border-t border-[#E5E3DE] p-[22px]">
             <FooterButton
               variant="primary"
-              className="w-full"
+              fullWidth
               onClick={() => {
                 setTemplateId(String(template.id));
                 onCreateResume?.();

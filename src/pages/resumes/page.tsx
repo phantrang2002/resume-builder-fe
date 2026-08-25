@@ -1,3 +1,4 @@
+import ActionButton from "@/components/common/ActionButton";
 import ResumeCard from "@/components/page/resumes/ResumeCard";
 import ResumesEmptyState, {
   ResumesFilteredEmptyState,
@@ -45,13 +46,13 @@ export default function ResumesPage() {
         </div>
 
         {!page.isError && !page.isTrulyEmpty ? (
-          <button
-            type="button"
+          <ActionButton
+            fullWidth={false}
             onClick={() => navigate(ROUTER_PATH.RESUMES_NEW)}
-            className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+            className="shrink-0 px-4 font-medium"
           >
             New resume
-          </button>
+          </ActionButton>
         ) : null}
       </header>
 

@@ -1,3 +1,4 @@
+import ActionButton from "@/components/common/ActionButton";
 import { LoadingOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -85,16 +86,16 @@ function DashboardEmptyContent({ firstName }: { firstName: string }) {
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <button
-              type="button"
+            <ActionButton
+              fullWidth={false}
               onClick={() => navigate(ROUTER_PATH.RESUMES_NEW)}
-              className="inline-flex h-11 min-w-[200px] items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-white transition-colors hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              className="min-w-[200px] px-5 font-medium"
             >
               Create my first resume
-            </button>
+            </ActionButton>
             <button
               type="button"
-              className="inline-flex h-11 min-w-[160px] items-center justify-center rounded-lg border border-gray-300 bg-white px-5 text-sm font-medium text-pageTitle transition-colors hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400"
+              className="inline-flex h-10 min-w-[160px] items-center justify-center rounded-lg border border-gray-300 bg-white px-5 text-sm font-medium text-pageTitle transition-colors hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400"
             >
               See the templates
             </button>

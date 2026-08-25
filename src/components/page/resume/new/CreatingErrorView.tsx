@@ -47,7 +47,7 @@ export default function CreatingErrorView({ onRetry, onBack }: CreatingErrorView
         </div>
 
         <div className="mt-6 flex flex-col gap-2 sm:flex-row">
-          <FooterButton variant="primary" className="w-full sm:flex-1" onClick={onRetry}>
+          <FooterButton variant="primary" fullWidth className="sm:flex-1" onClick={onRetry}>
             Try again
           </FooterButton>
           <FooterButton variant="secondary" className="w-full sm:flex-1" onClick={onBack}>

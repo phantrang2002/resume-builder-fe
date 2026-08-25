@@ -1,3 +1,4 @@
+import ActionButton from "@/components/common/ActionButton";
 import ResumeEditorHeader from "@/components/page/resume/edit/ResumeEditorHeader";
 import ResumeEditorPreviewPane from "@/components/page/resume/edit/ResumeEditorPreviewPane";
 import ResumeEditorSectionContent from "@/components/page/resume/edit/ResumeEditorSectionContent";
@@ -6,9 +7,10 @@ import useResumeEditor from "@/hooks/resume/useResumeEditor";
 import { ROUTER_PATH } from "@/shared/constants";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function ResumeEditorPage() {
+  const navigate = useNavigate();
   const editor = useResumeEditor();
 
   if (editor.isLoading) {
@@ -29,12 +31,13 @@ export default function ResumeEditorPage() {
             It may have been deleted or you don&apos;t have access.
           </p>
         </div>
-        <Link
-          to={ROUTER_PATH.RESUMES}
-          className="inline-flex h-10 items-center rounded-lg bg-primary px-4 text-sm font-medium text-white hover:bg-primary/90"
+        <ActionButton
+          fullWidth={false}
+          onClick={() => navigate(ROUTER_PATH.RESUMES)}
+          className="px-4 font-medium"
         >
           Back to My resumes
-        </Link>
+        </ActionButton>
       </div>
     );
   }
