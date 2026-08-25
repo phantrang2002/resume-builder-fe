@@ -37,7 +37,7 @@ export default function useResumesPage() {
     [search, sortKey, statusFilter],
   );
 
-  const { data, isLoading, isFetching, isError } = useGetResumesQuery(queryParams);
+  const { data, isLoading, isFetching, isError, error, refetch } = useGetResumesQuery(queryParams);
   const resumesData = data?.data;
   const items = resumesData?.items ?? [];
   const summary = resumesData?.summary;
@@ -63,5 +63,8 @@ export default function useResumesPage() {
     isLoading,
     isFetching,
     isError,
+    error,
+    refetch,
+    isRefetching: isFetching && !isLoading,
   };
 }

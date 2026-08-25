@@ -21,7 +21,9 @@ export default function CreatingErrorView({ onRetry, onBack }: CreatingErrorView
     >
       <div className="m-auto w-full max-w-[520px] rounded-xl border border-[#F0D4D4] bg-white px-6 py-8 shadow-sm sm:px-8 sm:py-9">
         <div className="flex justify-center">
-          <ExclamationCircleOutlined className="text-[40px] text-[#C4554A]" />
+          <span className="inline-flex size-12 items-center justify-center rounded-full bg-errorBg">
+            <ExclamationCircleOutlined className="text-xl text-error" aria-hidden />
+          </span>
         </div>
 
         <h1
