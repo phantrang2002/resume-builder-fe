@@ -5,8 +5,14 @@ export const ROUTER_PATH = {
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
   DASHBOARD: "/dashboard",
+  RESUMES_NEW: "/resumes/new",
+  RESUME_EDIT: "/resumes/:id/edit",
   NOT_FOUND: "/404",
 } as const;
+
+export function resumeEditPath(id: string): string {
+  return `/resumes/${id}/edit`;
+}
 
 export const PRIVATE_DEFAULT_ROUTE = ROUTER_PATH.DASHBOARD;
 

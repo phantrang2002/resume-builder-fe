@@ -22,10 +22,12 @@ src/
 ├── components/
 │   ├── common/             # Form controls, toasts, SessionBootstrapGate
 │   ├── layout/             # Sidebar, AuthPromoPanel
-│   └── page/               # Page-specific forms (login, signup)
-├── hooks/auth/             # useLogin, useLogout, useSignup, session bootstrap
-├── layouts/                # AuthLayout, MainLayout
-├── pages/                  # Route page components
+│   └── page/               # Page-specific UI (login, signup, resume/new, …)
+├── hooks/
+│   ├── auth/               # useLogin, useLogout, useSignup, session bootstrap
+│   └── resume/             # draft, wizard, and creating-progress hooks
+├── layouts/                # AuthLayout, MainLayout, CreateResumeLayout
+├── pages/                  # Route page components (incl. resumes/new, resumes/edit)
 ├── services/
 │   ├── api/                # RTK Query (appApi, authApi, baseQuery, refreshSession)
 │   └── http/               # fetch client, executeClientRequest

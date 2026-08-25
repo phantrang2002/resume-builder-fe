@@ -22,7 +22,7 @@ Directory structure, entry points, routing, and key modules.
 | File | Description |
 | ---- | ----------- |
 | [directory-structure.md](codebase/directory-structure.md) | `src/` layout, entry points, module responsibilities |
-| [routing-and-layouts.md](codebase/routing-and-layouts.md) | Route table, AuthLayout / MainLayout, guards, adding routes |
+| [routing-and-layouts.md](codebase/routing-and-layouts.md) | Route table, AuthLayout / MainLayout / CreateResumeLayout, guards, adding routes |
 | [shared-ui-components.md](codebase/shared-ui-components.md) | Common form controls, toasts, auth promo, layout pieces |
 
 ## Code Standard

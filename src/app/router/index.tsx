@@ -7,12 +7,15 @@ import {
 } from "@/app/middleware/authNavigation";
 import { useAppSelector } from "@/app/store/hooks";
 import AuthLayout from "@/layouts/AuthLayout";
+import CreateResumeLayout from "@/layouts/CreateResumeLayout";
 import MainLayout from "@/layouts/MainLayout";
 import DashboardPage from "@/pages/dashboard/page";
 import SignupPage from "@/pages/signup/SignupPage";
 import ForgotPasswordPage from "@/pages/forgot-password/ForgotPasswordPage";
 import LoginPage from "@/pages/login/LoginPage";
 import NotFoundPage from "@/pages/not-found/NotFoundPage";
+import CreateResumePage from "@/pages/resumes/new/page";
+import ResumeEditorPlaceholderPage from "@/pages/resumes/edit/page";
 import ResetPasswordPage from "@/pages/reset-password/ResetPasswordPage";
 import { NO_ACCESS_PERMISSION_MESSAGE, ROUTER_PATH } from "@/shared/constants";
 import { useEffect } from "react";
@@ -47,7 +50,7 @@ function ProtectedRoute() {
     return <Navigate to={target} replace />;
   }
 
-  return <MainLayout />;
+  return <Outlet />;
 }
 
 function AdminProtectedRoute() {
@@ -93,9 +96,16 @@ export default function AppRouter() {
       </Route>
 
       <Route element={<ProtectedRoute />}>
-        <Route path={ROUTER_PATH.DASHBOARD} element={<DashboardPage />} />
-        <Route element={<AdminProtectedRoute />}>
-          <Route path="/admin" element={<AdminOnlyPage />} />
+        <Route element={<MainLayout />}>
+          <Route path={ROUTER_PATH.DASHBOARD} element={<DashboardPage />} />
+          <Route element={<AdminProtectedRoute />}>
+            <Route path="/admin" element={<AdminOnlyPage />} />
+          </Route>
+        </Route>
+
+        <Route element={<CreateResumeLayout />}>
+          <Route path={ROUTER_PATH.RESUMES_NEW} element={<CreateResumePage />} />
+          <Route path={ROUTER_PATH.RESUME_EDIT} element={<ResumeEditorPlaceholderPage />} />
         </Route>
       </Route>
 

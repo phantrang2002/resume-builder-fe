@@ -22,7 +22,7 @@ const variantIcons: Record<AppToastVariant, { icon: ReactNode; iconColor: string
   },
   error: {
     icon: <ToastErrorIcon />,
-    iconColor: "text-[#A13D2E]",
+    iconColor: "text-error",
   },
   info: {
     icon: <ToastInfoIcon />,
